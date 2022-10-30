@@ -22,7 +22,7 @@ class Painter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawLine(
-        Offset(30, 30), Offset(130, 130), Paint()..color = Colors.blue);
+        Offset(30, 30), Offset(130, 30), Paint()..color = Colors.blue);
   }
 
   @override
