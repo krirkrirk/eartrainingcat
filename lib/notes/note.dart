@@ -23,8 +23,9 @@ var alterations = <String, int>{
 };
 
 class Note {
-  String name;
+  String letter;
   String alteration;
+  String name;
   String fullName;
   int octave; //C0 to C3
   int soundNumber; // C0 is 0
@@ -32,13 +33,14 @@ class Note {
 
   bool isChromatic;
   Note(
-      {required this.name,
+      {required this.letter,
       required this.alteration,
       required this.octave,
       required this.soundNumber,
-      required this.fullName,
       required this.positionInG,
-      required this.isChromatic});
+      required this.isChromatic})
+      : name = letter + alteration,
+        fullName = letter + alteration + octave.toString();
 
   @override
   String toString() {
@@ -74,7 +76,7 @@ List<Note> getAllNotes() {
         var alterationDifference = alterations[alteration];
         res.add(Note(
             alteration: alteration,
-            name: letter,
+            letter: letter,
             octave: octave,
             isChromatic:
                 (alteration == "#" || alteration == "" || alteration == "b") &&
@@ -82,7 +84,6 @@ List<Note> getAllNotes() {
                         letter == "B" && alteration == "#" ||
                         letter == "F" && alteration == "b" ||
                         letter == "C" && alteration == "b"),
-            fullName: letter + alteration + octave.toString(),
             positionInG: octave * 7 + letterIndex,
             soundNumber:
                 1 + octave * 12 + noteDistance! + alterationDifference!));
@@ -91,25 +92,22 @@ List<Note> getAllNotes() {
   }
   res.add(Note(
       alteration: "",
-      name: "C",
+      letter: "C",
       octave: 3,
-      fullName: "C3",
       positionInG: 0,
       isChromatic: true,
       soundNumber: 37));
   res.add(Note(
       alteration: "b",
-      name: "C",
+      letter: "C",
       octave: 3,
-      fullName: "Cb3",
       positionInG: 0,
       isChromatic: false,
       soundNumber: 36));
   res.add(Note(
       alteration: "bb",
-      name: "C",
+      letter: "C",
       octave: 3,
-      fullName: "Cbb3",
       positionInG: 0,
       isChromatic: false,
       soundNumber: 35));
@@ -119,4 +117,4 @@ List<Note> getAllNotes() {
   return res;
 }
 
-var notes = getAllNotes();
+var NOTES = getAllNotes();

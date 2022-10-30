@@ -1,28 +1,27 @@
-//widget, recoit les types d'intervalles, la facon de lire (ascend/descend/harmo),
-// en prend un au pif, le lit,
-// affiche les choix parmi tous les types
-
-import 'package:eartraining/interval.dart';
-import 'package:eartraining/intervalType.dart';
+import 'package:eartraining/chords/chord.dart';
+import 'package:eartraining/chords/chordType.dart';
+import 'package:eartraining/intervals/interval.dart';
+import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-class IntervalsEarTrainingExercice extends StatefulWidget {
-  List<IntervalType> intervalTypes;
+class ChordsEarTrainingExercice extends StatefulWidget {
+  List<ChordType> chordsTypes;
   List<PlayType> playTypes;
 
-  IntervalsEarTrainingExercice(
-      {Key? key, required this.intervalTypes, required this.playTypes})
+  ChordsEarTrainingExercice(
+      {Key? key, required this.chordsTypes, required this.playTypes})
       : super(key: key);
 
   @override
-  _IntervalsEarTrainingExerciceState createState() =>
-      _IntervalsEarTrainingExerciceState();
+  _ChordsEarTrainingExerciceState createState() =>
+      _ChordsEarTrainingExerciceState();
 }
 
-class _IntervalsEarTrainingExerciceState
-    extends State<IntervalsEarTrainingExercice> {
-  Interval? interval;
+class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
+  Chord? chord;
   PlayType? playType;
   bool? rightAnswer;
   @override
@@ -32,9 +31,9 @@ class _IntervalsEarTrainingExerciceState
   }
 
   void setNewQuestion() {
-    var intervalType = randomFrom(widget.intervalTypes);
+    var chordtype = randomFrom(widget.chordsTypes);
     setState(() {
-      interval = intervalType.getRandomInterval();
+      chord = chordtype.getRandomChord();
       playType = randomFrom(widget.playTypes);
       rightAnswer = null;
     });
@@ -42,20 +41,21 @@ class _IntervalsEarTrainingExerciceState
 
   void onClick(id) {
     setState(() {
-      rightAnswer = interval!.type.id == id;
+      rightAnswer = chord!.type.id == id;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      Staff(),
       OutlinedButton(
         child: const Text("Play"),
         onPressed: () {
-          interval!.play(playType: playType!);
+          chord!.play(playType!);
         },
       ),
-      ...widget.intervalTypes.map(
+      ...widget.chordsTypes.map(
         (e) => OutlinedButton(
             onPressed: () {
               onClick(e.id);
