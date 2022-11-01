@@ -45,23 +45,27 @@ class _IntervalsEarTrainingExerciceState
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      OutlinedButton(
-        child: const Text("Play"),
-        onPressed: () {
-          interval!.play(playType!);
-        },
-      ),
-      ...widget.intervalTypes.map(
-        (e) => OutlinedButton(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Intervalles Exercice"),
+        ),
+        body: Column(children: [
+          OutlinedButton(
+            child: const Text("Play"),
             onPressed: () {
-              onClick(e.id);
+              interval!.play(playType!);
             },
-            child: Text(e.label)),
-      ),
-      if (rightAnswer == true) Text("Oui !"),
-      if (rightAnswer == false) Text("Non"),
-      OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
-    ]);
+          ),
+          ...widget.intervalTypes.map(
+            (e) => OutlinedButton(
+                onPressed: () {
+                  onClick(e.id);
+                },
+                child: Text(e.label)),
+          ),
+          if (rightAnswer == true) Text("Oui !"),
+          if (rightAnswer == false) Text("Non"),
+          OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
+        ]));
   }
 }

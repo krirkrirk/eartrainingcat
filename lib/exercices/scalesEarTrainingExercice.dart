@@ -3,25 +3,27 @@ import 'package:eartraining/chords/chordType.dart';
 import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/intervals/intervalType.dart';
 import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/scales/scale.dart';
+import 'package:eartraining/scales/scaleType.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-class ChordsEarTrainingExercice extends StatefulWidget {
-  List<ChordType> chordsTypes;
+class ScalesEarTrainingExercice extends StatefulWidget {
+  List<ScaleType> scalesTypes;
   List<PlayType> playTypes;
 
-  ChordsEarTrainingExercice(
-      {Key? key, required this.chordsTypes, required this.playTypes})
+  ScalesEarTrainingExercice(
+      {Key? key, required this.scalesTypes, required this.playTypes})
       : super(key: key);
 
   @override
-  _ChordsEarTrainingExerciceState createState() =>
-      _ChordsEarTrainingExerciceState();
+  _ScalesEarTrainingExerciceState createState() =>
+      _ScalesEarTrainingExerciceState();
 }
 
-class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
-  Chord? chord;
+class _ScalesEarTrainingExerciceState extends State<ScalesEarTrainingExercice> {
+  Scale? scale;
   PlayType? playType;
   bool? rightAnswer;
   @override
@@ -31,9 +33,9 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
   }
 
   void setNewQuestion() {
-    var chordtype = randomFrom(widget.chordsTypes);
+    var scaletype = randomFrom(widget.scalesTypes);
     setState(() {
-      chord = chordtype.getRandomChord();
+      scale = scaletype.getRandomScale();
       playType = randomFrom(widget.playTypes);
       rightAnswer = null;
     });
@@ -41,7 +43,7 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
 
   void onClick(id) {
     setState(() {
-      rightAnswer = chord!.type.id == id;
+      rightAnswer = scale!.type.id == id;
     });
   }
 
@@ -49,17 +51,17 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Chords exercice"),
+          title: Text("Scales exercice"),
         ),
         body: Column(children: [
           Staff(),
           OutlinedButton(
             child: const Text("Play"),
             onPressed: () {
-              chord!.play(playType!);
+              scale!.play(playType!);
             },
           ),
-          ...widget.chordsTypes.map(
+          ...widget.scalesTypes.map(
             (e) => OutlinedButton(
                 onPressed: () {
                   onClick(e.id);

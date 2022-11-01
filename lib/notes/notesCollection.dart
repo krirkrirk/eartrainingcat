@@ -1,5 +1,6 @@
 import 'package:eartraining/intervals/intervalType.dart';
 import 'package:eartraining/notes/note.dart';
+import 'package:flutter/cupertino.dart';
 
 enum PlayType { harmonic, ascendant, descendant }
 
@@ -9,9 +10,9 @@ class NotesCollection {
 
   NotesCollection.fromRootAndStructure(
       Note root, List<IntervalType> intervals) {
-    notes.add(root);
     for (var interval in intervals) {
       notes.add(interval.getSecondNoteFromBass(root));
+      // debugPrint(notes.toString());
     }
   }
 

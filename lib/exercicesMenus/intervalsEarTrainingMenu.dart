@@ -10,24 +10,27 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text("Menu ear training intervals"),
-        ElevatedButton(
-          child: const Text("Diatoniques"),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => IntervalsEarTrainingExercice(
-                    intervalTypes: INTERVALS
-                        .where((interval) => interval.isDiatonic)
-                        .toList(),
-                    playTypes: [PlayType.harmonic, PlayType.ascendant]),
-              ),
-            );
-          },
-        )
-      ],
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Intervals"),
+        ),
+        body: Column(
+          children: [
+            ElevatedButton(
+              child: const Text("Diatoniques"),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => IntervalsEarTrainingExercice(
+                        intervalTypes: INTERVALS
+                            .where((interval) => interval.isDiatonic)
+                            .toList(),
+                        playTypes: [PlayType.harmonic, PlayType.ascendant]),
+                  ),
+                );
+              },
+            )
+          ],
+        ));
   }
 }

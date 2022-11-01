@@ -28,10 +28,11 @@ class Note {
   String name;
   String fullName;
   int octave; //C0 to C3
-  int soundNumber; // C0 is 0
-  int positionInG;
-
+  int soundNumber; // C0 is 1
+  int positionInG; // C0 is 1
+  AudioPlayer player;
   bool isChromatic;
+
   Note(
       {required this.letter,
       required this.alteration,
@@ -40,7 +41,10 @@ class Note {
       required this.positionInG,
       required this.isChromatic})
       : name = letter + alteration,
-        fullName = letter + alteration + octave.toString();
+        fullName = letter + alteration + octave.toString(),
+        player = AudioPlayer() {
+    player.setSource(AssetSource('../assets/sounds/$soundNumber.mp3'));
+  }
 
   @override
   String toString() {
@@ -84,7 +88,7 @@ List<Note> getAllNotes() {
                         letter == "B" && alteration == "#" ||
                         letter == "F" && alteration == "b" ||
                         letter == "C" && alteration == "b"),
-            positionInG: octave * 7 + letterIndex,
+            positionInG: octave * 7 + letterIndex + 1,
             soundNumber:
                 1 + octave * 12 + noteDistance! + alterationDifference!));
       }
@@ -94,27 +98,32 @@ List<Note> getAllNotes() {
       alteration: "",
       letter: "C",
       octave: 3,
-      positionInG: 0,
+      positionInG: 22,
       isChromatic: true,
       soundNumber: 37));
   res.add(Note(
       alteration: "b",
       letter: "C",
       octave: 3,
-      positionInG: 0,
+      positionInG: 22,
       isChromatic: false,
       soundNumber: 36));
   res.add(Note(
       alteration: "bb",
       letter: "C",
       octave: 3,
-      positionInG: 0,
+      positionInG: 22,
       isChromatic: false,
       soundNumber: 35));
   // for (var note in res) {
-  //   debugPrint(note.fullName + note.positionInG.toString());
+  //   debugPrint(note.fullName +
+  //       note.positionInG.toString() +
+  //       "sound" +
+  //       note.soundNumber.toString());
   // }
   return res;
 }
 
 var NOTES = getAllNotes();
+var NOTES_MAP = Map.fromIterable(NOTES,
+    key: (item) => item.fullName, value: (item) => item as Note);

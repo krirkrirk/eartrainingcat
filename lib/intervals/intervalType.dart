@@ -2,6 +2,7 @@ import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/notes/note.dart';
 import 'package:eartraining/notes/notesCollection.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
+import 'package:flutter/cupertino.dart' hide Interval;
 
 class IntervalType {
   String label;
@@ -34,6 +35,7 @@ class IntervalType {
     var note2 = NOTES.firstWhere((el) =>
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
+
     return Interval(type: this, notes: NotesCollection(notes: [note, note2]));
   }
 
@@ -50,6 +52,8 @@ class IntervalType {
 }
 
 final INTERVALS = [
+  IntervalType(
+      label: "Unisson", id: "1", semitones: 0, type: 1, isDiatonic: true),
   IntervalType(
       label: "Seconde mineure",
       id: "2m",
@@ -75,7 +79,23 @@ final INTERVALS = [
       type: 3,
       isDiatonic: true),
   IntervalType(
+      label: "Quarte juste", id: "4", semitones: 5, type: 4, isDiatonic: true),
+  IntervalType(
       label: "Quinte juste", id: "5", semitones: 7, type: 5, isDiatonic: true),
+  IntervalType(
+      label: "Sixte juste", id: "6", semitones: 9, type: 6, isDiatonic: true),
+  IntervalType(
+      label: "Septième mineure",
+      id: "7m",
+      semitones: 10,
+      type: 7,
+      isDiatonic: false),
+  IntervalType(
+      label: "Septième majeure",
+      id: "7M",
+      semitones: 11,
+      type: 7,
+      isDiatonic: true),
 ];
 
 final INTERVALS_MAP =

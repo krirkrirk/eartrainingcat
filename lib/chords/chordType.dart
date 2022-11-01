@@ -11,12 +11,13 @@ class ChordType {
   String label;
   String id;
   int numberOfSound;
-
+  String structureId = ""; // pour faciliter la recherche par structure
   ChordType({required List intervalsIds, required this.label, required this.id})
-      : numberOfSound = intervalsIds.length + 1 {
+      : numberOfSound = intervalsIds.length {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
       structure.add(intervalType);
+      structureId += id;
     }
   }
 
@@ -40,9 +41,9 @@ class ChordType {
 }
 
 var CHORDS = [
-  ChordType(label: "Triade majeure", id: "", intervalsIds: ["3", "5"]),
-  ChordType(label: "Triade mineure", id: "m", intervalsIds: ["3m", "5"]),
-  ChordType(label: "Sus2", id: "sus2", intervalsIds: ["2", "5"]),
+  ChordType(label: "Triade majeure", id: "", intervalsIds: ["1", "3", "5"]),
+  ChordType(label: "Triade mineure", id: "m", intervalsIds: ["1", "3m", "5"]),
+  ChordType(label: "Sus2", id: "sus2", intervalsIds: ["1", "2", "5"]),
 ];
 
 final CHORDS_MAP =
