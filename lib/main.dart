@@ -1,10 +1,21 @@
 import 'package:eartraining/exercicesMenus/chordsEarTrainingMenu.dart';
 import 'package:eartraining/exercicesMenus/intervalsEarTrainingMenu.dart';
 import 'package:eartraining/exercicesMenus/scalesEarTrainingMenu.dart';
-import 'package:eartraining/scales/scaleType.dart';
-import 'package:flutter/material.dart';
+import 'dart:ui' as UI;
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// load the image async and then draw with `canvas.drawImage(image, Offset.zero, Paint());`
+Future<UI.Image> loadImageAsset(String assetName) async {
+  final data = await rootBundle.load(assetName);
+  return decodeImageFromList(data.buffer.asUint8List());
+}
+
+late UI.Image sharpImage;
 void main() {
+  // loadImageAsset("../../assets/images/sharp.png")
+  // .then((value) => sharpImage = value);
   runApp(const MyApp());
 }
 
@@ -34,6 +45,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  initState() {
+    super.initState();
+    loadImageAsset("../../assets/images/sharp.png")
+        .then((value) => sharpImage = value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -46,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
             end: Alignment.bottomLeft,
             stops: [0.1, 0.5, 0.7, 0.9],
             colors: [
-              // Colors are easy thanks to Flutter's Colors class.
               Colors.indigo[900]!,
               Colors.indigo[700]!,
               Colors.indigo[600]!,

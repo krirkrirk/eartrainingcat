@@ -27,7 +27,7 @@ class ScalesEarTrainingMenu extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => ScalesEarTrainingExercice(
                       scalesTypes: SCALES,
-                      playTypes: [PlayType.harmonic, PlayType.ascendant]),
+                      playTypes: [PlayType.ascendant, PlayType.descendant]),
                 ),
               );
             },

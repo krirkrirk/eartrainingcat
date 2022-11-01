@@ -1,9 +1,11 @@
+import 'package:eartraining/main.dart';
 import 'package:eartraining/notes/note.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:ui' as UI;
 
-///clé, notes dans l'ordre
-///plus tard liste de mesures, temps etc...
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/painting.dart' show decodeImageFromList;
 
 class Staff extends StatelessWidget {
   List<List<Note>> song;
@@ -13,8 +15,9 @@ class Staff extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: Painter(song: song),
-      child: const SizedBox.square(
-        dimension: 240.0,
+      child: const SizedBox(
+        width: 480.0,
+        height: 150.0,
       ),
     );
   }
@@ -22,11 +25,58 @@ class Staff extends StatelessWidget {
 
 class Painter extends CustomPainter {
   List<List<Note>> song;
+  bool loaded = false;
   Painter({required this.song});
 
-  @override
-  var notePosition = 18;
-  void paint(Canvas canvas, Size size) {
+  void drawNotes(Canvas canvas, Size size) {
+    var sheetHeight = size.height;
+    var deltaH = sheetHeight / 12;
+
+    var paint = Paint()
+      ..color = Colors.teal
+      ..strokeWidth = 1;
+
+    var sheetWidth = size.width;
+    var barElementMaxWidth = sheetWidth / 8;
+    // var barElementWidth = max(barElementMaxWidth, 50);
+    var barElementWidth = barElementMaxWidth;
+
+    var clefWidth = 30;
+    var barStart = clefWidth + 20;
+
+    for (var i = 0; i < song.length; i++) {
+      var barElementStart = barStart + i * barElementWidth;
+      var barElementCenter = barElementStart + barElementWidth / 2;
+
+      for (var note in song[i]) {
+        var noteY = ((12) * 2 - note.positionInG) * deltaH / 2;
+        canvas.drawCircle(Offset(barElementCenter, noteY), deltaH / 2, paint);
+
+        ///Additional lines
+        if (note.positionInG > 19) {
+          canvas.drawLine(
+              Offset(barElementStart + barElementWidth / 4, 2 * deltaH),
+              Offset(barElementStart + 3 * barElementWidth / 4, 2 * deltaH),
+              paint);
+          if (note.positionInG > 22) {
+            canvas.drawLine(
+                Offset(barElementStart + barElementWidth / 4, deltaH),
+                Offset(barElementStart + 3 * barElementWidth / 4, deltaH),
+                paint);
+          }
+        } else if (note.positionInG < 9) {
+          for (var i = 8; i < 8 + (8 - note.positionInG) ~/ 2 + 1; i++) {
+            canvas.drawLine(
+                Offset(barElementStart + barElementWidth / 4, i * deltaH),
+                Offset(barElementStart + 3 * barElementWidth / 4, i * deltaH),
+                paint);
+          }
+        }
+      }
+    }
+  }
+
+  void drawStaff(Canvas canvas, Size size) {
     var sheetHeight = size.height;
     var sheetWidth = size.width;
     var deltaH = sheetHeight / 12;
@@ -37,14 +87,14 @@ class Painter extends CustomPainter {
       canvas.drawLine(
           Offset(0, i * deltaH), Offset(sheetWidth, i * deltaH), paint);
     }
-    for (var i = 0; i < song.length; i++) {
-      var x = (i + 1) * 50.0;
-      var time = song[i];
-      for (var note in time) {
-        var y = ((12) * 2 - note.positionInG) * deltaH / 2;
-        canvas.drawCircle(Offset(x, y), deltaH / 2, paint);
-      }
-    }
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // if (sharpImage != null)
+    canvas.drawImage(sharpImage, Offset(100.0, 100.0), Paint());
+    drawStaff(canvas, size);
+    drawNotes(canvas, size);
   }
 
   @override

@@ -25,6 +25,13 @@ class Scale {
   // }
 
   getHarmonization() {}
+  List<List<Note>> getSheetData() {
+    var res = <List<Note>>[];
+    notesCollection.notes.forEach((element) {
+      res.add([element]);
+    });
+    return res;
+  }
 
   @override
   String toString() {

@@ -13,8 +13,12 @@ class ScaleType {
   String label;
   String id;
   int numberOfSound;
-
-  ScaleType({required List intervalsIds, required this.label, required this.id})
+  List<String>? modeNames;
+  ScaleType(
+      {required List intervalsIds,
+      required this.label,
+      required this.id,
+      this.modeNames})
       : numberOfSound = intervalsIds.length + 1 {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
@@ -66,10 +70,23 @@ class ScaleType {
 }
 
 var SCALES = [
-  ScaleType(
-      label: "Gamme majeure",
-      id: "M",
-      intervalsIds: ["1", "2", "3", "4", "5", "6", "7M"]),
+  ScaleType(label: "Gamme majeure", id: "M", intervalsIds: [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7M"
+  ], modeNames: [
+    "Ionien",
+    "Dorien",
+    "Phrygien",
+    "Lydien",
+    "Mixolidien",
+    "Aéolien",
+    "Locrien"
+  ]),
 ];
 
 final SCALES_MAP =
