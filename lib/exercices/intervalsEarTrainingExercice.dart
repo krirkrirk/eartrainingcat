@@ -1,6 +1,7 @@
 import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/intervals/intervalType.dart';
 import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
@@ -50,6 +51,10 @@ class _IntervalsEarTrainingExerciceState
           title: Text("Intervalles Exercice"),
         ),
         body: Column(children: [
+          Staff(song: [
+            [interval!.notesCollection.notes[0]],
+            [interval!.notesCollection.notes[1]]
+          ]),
           OutlinedButton(
             child: const Text("Play"),
             onPressed: () {

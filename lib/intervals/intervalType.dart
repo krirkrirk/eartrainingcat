@@ -36,7 +36,8 @@ class IntervalType {
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
 
-    return Interval(type: this, notes: NotesCollection(notes: [note, note2]));
+    return Interval(
+        type: this, notesCollection: NotesCollection(notes: [note, note2]));
   }
 
   Interval getRandomInterval() {
@@ -47,7 +48,8 @@ class IntervalType {
     var root = randomFrom(availableRoots.toList());
     return Interval(
         type: this,
-        notes: NotesCollection(notes: [root, getSecondNoteFromBass(root)]));
+        notesCollection:
+            NotesCollection(notes: [root, getSecondNoteFromBass(root)]));
   }
 }
 

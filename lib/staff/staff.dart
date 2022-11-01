@@ -6,12 +6,8 @@ import 'package:flutter/material.dart';
 ///plus tard liste de mesures, temps etc...
 
 class Staff extends StatelessWidget {
-  Staff({Key? key}) : super(key: key);
-
-  final song = [
-    [NOTES_MAP["C1"]!, NOTES_MAP["E1"]!, NOTES_MAP["G1"]!],
-    [NOTES_MAP["G1"]!, NOTES_MAP["B1"]!, NOTES_MAP["D2"]!]
-  ];
+  List<List<Note>> song;
+  Staff({Key? key, required this.song}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

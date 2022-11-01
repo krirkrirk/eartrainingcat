@@ -54,7 +54,9 @@ class _ScalesEarTrainingExerciceState extends State<ScalesEarTrainingExercice> {
           title: Text("Scales exercice"),
         ),
         body: Column(children: [
-          Staff(),
+          Staff(
+            song: [],
+          ),
           OutlinedButton(
             child: const Text("Play"),
             onPressed: () {

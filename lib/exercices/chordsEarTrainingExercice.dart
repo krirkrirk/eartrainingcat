@@ -52,7 +52,7 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
           title: Text("Chords exercice"),
         ),
         body: Column(children: [
-          Staff(),
+          Staff(song: []),
           OutlinedButton(
             child: const Text("Play"),
             onPressed: () {

@@ -5,16 +5,16 @@ import 'package:flutter/cupertino.dart';
 
 class Interval {
   IntervalType type;
-  NotesCollection notes;
+  NotesCollection notesCollection;
 
-  Interval({required this.type, required this.notes});
+  Interval({required this.type, required this.notesCollection});
 
   @override
   String toString() {
-    return type.toString() + notes.toString();
+    return type.toString() + notesCollection.toString();
   }
 
   play([playType]) {
-    notes.play(playType: playType);
+    notesCollection.play(playType: playType);
   }
 }
