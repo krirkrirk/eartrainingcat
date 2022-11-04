@@ -70,24 +70,13 @@ class ScaleType {
 }
 
 var SCALES = [
-  ScaleType(label: "Gamme majeure", id: "M", intervalsIds: [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7M"
-  ], modeNames: [
-    "Ionien",
-    "Dorien",
-    "Phrygien",
-    "Lydien",
-    "Mixolidien",
-    "Aéolien",
-    "Locrien"
-  ]),
+  ScaleType(label: "Echelle Diatonique", intervalsIds: ["int1","int2","int3","int4","int5","int6","int7"], modeNames: ["Ionien","Dorien","Phrygien","Lydien","Mixolidien","Aéolien","Locrien"]),
+  ScaleType(label: "Echelle G#", intervalsIds: ["int1","int2","int3","int4","int5+","int6","int7"], modeNames: ["Ionien #5","Dorien #4","Phrygien majeur (3M)","Lydien 2M","Mixolidien #1","Mineur Harmonique (Aeolien 7M)","Locrien 6M"]),
+  ScaleType(label: "Echelle Eb", intervalsIds: ["int1","int2","int3m","int4","int5","int6","int7"], modeNames: ["Mineur Mélodique (Ionien 3m) ","Dorien","Phrygien","Mode de Bartok","Mixolidien","Aéolien","Altéré"]),
+
 ];
+
+//IONIEN est aussi "gamme majeure", et Aeolien est aussi "gamme mineure naturelle", ect pour les autres scalestype...
 
 final SCALES_MAP =
     Map.fromIterable(SCALES, key: (item) => item.id, value: (item) => item);
