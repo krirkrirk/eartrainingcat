@@ -9,7 +9,7 @@ class Scale {
   NotesCollection notesCollection;
   String name;
   Scale({required this.type, required this.notesCollection})
-      : name = notesCollection.notes[0].name + type.id;
+      : name = notesCollection.notes[0].name + type.label;
 
   play([playType]) {
     notesCollection.play(playType: playType);

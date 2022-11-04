@@ -41,9 +41,9 @@ class _ScalesEarTrainingExerciceState extends State<ScalesEarTrainingExercice> {
     });
   }
 
-  void onClick(id) {
+  void onClick(label) {
     setState(() {
-      rightAnswer = scale!.type.id == id;
+      rightAnswer = scale!.type.label == label;
     });
   }
 
@@ -66,7 +66,7 @@ class _ScalesEarTrainingExerciceState extends State<ScalesEarTrainingExercice> {
           ...widget.scalesTypes.map(
             (e) => OutlinedButton(
                 onPressed: () {
-                  onClick(e.id);
+                  onClick(e.label);
                 },
                 child: Text(e.label)),
           ),
