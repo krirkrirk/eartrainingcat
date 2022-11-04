@@ -11,14 +11,25 @@ class ChordType {
   String label;
   String id;
   int numberOfSounds;
-  String structureId = ""; // pour faciliter la recherche par structure
+  bool isMajor;
+  bool isMinor;
+  String structureId =
+      ""; // eg 3m5- , pour faciliter la recherche par structure
   ChordType({required List intervalsIds, required this.label, required this.id})
-      : numberOfSounds = intervalsIds.length {
+      : numberOfSounds = intervalsIds.length,
+        isMajor = intervalsIds
+            .any((element) => element.id == "3" || element.id == "10"),
+        isMinor = intervalsIds
+            .any((element) => element.id == "3m" || element.id == "10m") {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
       structure.add(intervalType);
       structureId += id;
     }
+    isMajor =
+        intervalsIds.any((element) => element.id == "3" || element.id == "10");
+    isMinor = intervalsIds
+        .any((element) => element.id == "3m" || element.id == "10m");
   }
 
   Chord getRandomChord() {
