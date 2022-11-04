@@ -51,7 +51,8 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
         appBar: AppBar(
           title: Text("Chords exercice"),
         ),
-        body: Column(children: [
+        body: Container(
+            child: Column(children: [
           Staff(song: []),
           OutlinedButton(
             child: const Text("Play"),
@@ -69,6 +70,6 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
           if (rightAnswer == true) Text("Oui !"),
           if (rightAnswer == false) Text("Non"),
           OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
-        ]));
+        ])));
   }
 }

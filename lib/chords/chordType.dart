@@ -3,6 +3,7 @@ import 'package:eartraining/intervals/intervalType.dart';
 import 'package:eartraining/notes/note.dart';
 import 'package:eartraining/notes/notesCollection.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
+import 'package:flutter/cupertino.dart';
 
 ///Toujours construire la liste des intervalles dans l'ordre croissant
 
@@ -17,19 +18,15 @@ class ChordType {
       ""; // eg 3m5- , pour faciliter la recherche par structure
   ChordType({required List intervalsIds, required this.label, required this.id})
       : numberOfSounds = intervalsIds.length,
-        isMajor = intervalsIds
-            .any((element) => element.id == "3" || element.id == "10"),
-        isMinor = intervalsIds
-            .any((element) => element.id == "3m" || element.id == "10m") {
+        isMajor =
+            intervalsIds.any((element) => element == "3" || element == "10"),
+        isMinor =
+            intervalsIds.any((element) => element == "3m" || element == "10m") {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
       structure.add(intervalType);
       structureId += id;
     }
-    isMajor =
-        intervalsIds.any((element) => element.id == "3" || element.id == "10");
-    isMinor = intervalsIds
-        .any((element) => element.id == "3m" || element.id == "10m");
   }
 
   Chord getRandomChord() {
