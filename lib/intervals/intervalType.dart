@@ -79,6 +79,8 @@ final INTERVALS = [
   IntervalType(
       label: "Quinte augmentee", id: "int5+", semitones: 8, type: 5, isDiatonic: false, octave: 1),
   IntervalType(
+      label: "Sixte diminuée", id: "int6-", semitones: 7, type: 6, isDiatonic: false, octave: 1),
+  IntervalType(
       label: "Sixte mineure", id: "int6m", semitones: 8, type: 6, isDiatonic: false, octave: 1),
   IntervalType(
       label: "Sixte majeure", id: "int6", semitones: 9, type: 6, isDiatonic: true, octave: 1),
