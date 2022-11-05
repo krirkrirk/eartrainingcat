@@ -52,6 +52,21 @@ class NotesCollection {
     }
   }
 
+  List<List<Note>> getSheetData([isHarmonic = false]) {
+    var res = <List<Note>>[[]];
+
+    if (isHarmonic) {
+      notes.forEach((element) {
+        res[0].add(element);
+      });
+    } else {
+      notes.forEach((element) {
+        res.add([element]);
+      });
+    }
+    return res;
+  }
+
   @override
   String toString() {
     return "(${notes.fold("", (acc, curr) => '$acc , ${curr.toString()}')})";

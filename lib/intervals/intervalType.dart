@@ -11,14 +11,17 @@ class IntervalType {
   int scaleSteps;
   int type;
   bool isDiatonic;
-
+  bool isArpegio;
+  int octave;
   IntervalType(
       {required this.label,
       required this.id,
       required this.semitones,
       required this.type,
+      this.isArpegio = false,
       required this.isDiatonic})
-      : scaleSteps = type - 1;
+      : scaleSteps = type - 1,
+        octave = type < 9 ? 1 : 2;
 
   @override
   String toString() {
@@ -63,11 +66,12 @@ final INTERVALS = [
       type: 2,
       isDiatonic: false),
   IntervalType(
-      label: "Seconde majeure",
-      id: "2",
-      semitones: 2,
-      type: 2,
-      isDiatonic: true),
+    label: "Seconde majeure",
+    id: "2",
+    semitones: 2,
+    type: 2,
+    isDiatonic: true,
+  ),
   IntervalType(
       label: "Seconde augmentée",
       id: "2+",
@@ -85,13 +89,16 @@ final INTERVALS = [
       id: "3m",
       semitones: 3,
       type: 3,
+      isArpegio: true,
       isDiatonic: false),
   IntervalType(
-      label: "Tierce majeure",
-      id: "3",
-      semitones: 4,
-      type: 3,
-      isDiatonic: true),
+    label: "Tierce majeure",
+    id: "3",
+    semitones: 4,
+    type: 3,
+    isDiatonic: true,
+    isArpegio: true,
+  ),
   IntervalType(
       label: "Quarte juste", id: "4", semitones: 5, type: 4, isDiatonic: true),
   IntervalType(
@@ -101,13 +108,21 @@ final INTERVALS = [
       type: 4,
       isDiatonic: false),
   IntervalType(
-      label: "Quinte diminuée",
-      id: "5-",
-      semitones: 6,
-      type: 5,
-      isDiatonic: false),
+    label: "Quinte diminuée",
+    id: "5-",
+    semitones: 6,
+    type: 5,
+    isDiatonic: false,
+    isArpegio: true,
+  ),
   IntervalType(
-      label: "Quinte juste", id: "5", semitones: 7, type: 5, isDiatonic: true),
+    label: "Quinte juste",
+    id: "5",
+    semitones: 7,
+    type: 5,
+    isDiatonic: true,
+    isArpegio: true,
+  ),
   IntervalType(
       label: "Quinte augmentee",
       id: "5+",
@@ -142,19 +157,29 @@ final INTERVALS = [
       type: 7,
       isDiatonic: false),
   IntervalType(
-      label: "Septième mineure",
-      id: "7m",
-      semitones: 10,
-      type: 7,
-      isDiatonic: false),
+    label: "Septième mineure",
+    id: "7m",
+    semitones: 10,
+    type: 7,
+    isDiatonic: false,
+    isArpegio: true,
+  ),
   IntervalType(
-      label: "Septième majeure",
-      id: "7",
-      semitones: 11,
-      type: 7,
-      isDiatonic: true),
+    label: "Septième majeure",
+    id: "7",
+    semitones: 11,
+    type: 7,
+    isDiatonic: true,
+    isArpegio: true,
+  ),
   IntervalType(
-      label: "Octave1", id: "8", semitones: 12, type: 8, isDiatonic: true),
+    label: "Octave1",
+    id: "8",
+    semitones: 12,
+    type: 8,
+    isDiatonic: true,
+    isArpegio: true,
+  ),
   IntervalType(
       label: "Neuvième mineure",
       id: "9m",

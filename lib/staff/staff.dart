@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:eartraining/main.dart';
 import 'package:eartraining/notes/note.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +39,8 @@ class Painter extends CustomPainter {
       ..strokeWidth = 1;
 
     var sheetWidth = size.width;
-    var barElementMaxWidth = sheetWidth / 8;
-    // var barElementWidth = max(barElementMaxWidth, 50);
-    var barElementWidth = barElementMaxWidth;
+
+    var barElementWidth = max(sheetWidth / 10, 20);
 
     var clefWidth = 30;
     var barStart = clefWidth + 20;
@@ -81,7 +82,7 @@ class Painter extends CustomPainter {
     var sheetWidth = size.width;
     var deltaH = sheetHeight / 12;
     var paint = Paint()
-      ..color = Colors.teal
+      ..color = Colors.white
       ..strokeWidth = 1;
     for (var i = 3; i < 8; i++) {
       canvas.drawLine(

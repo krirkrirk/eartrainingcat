@@ -2,6 +2,7 @@ import 'package:eartraining/chords/chord.dart';
 import 'package:eartraining/chords/chordType.dart';
 import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/notes/notesCollection.dart';
 import 'package:eartraining/scales/scale.dart';
 import 'package:eartraining/scales/scaleType.dart';
@@ -49,13 +50,13 @@ class _ScalesEarTrainingExerciceState extends State<ScalesEarTrainingExercice> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
         appBar: AppBar(
           title: Text("Scales exercice"),
         ),
-        body: Column(children: [
+        child: Column(children: [
           Staff(
-            song: scale?.getSheetData() ?? [],
+            song: scale?.notesCollection.getSheetData() ?? [],
           ),
           OutlinedButton(
             child: const Text("Play"),

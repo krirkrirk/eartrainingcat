@@ -1,6 +1,8 @@
 import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/roundAnswerButton.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
@@ -8,9 +10,15 @@ import 'package:flutter/material.dart' hide Interval;
 class IntervalsEarTrainingExercice extends StatefulWidget {
   List<IntervalType> intervalTypes;
   List<PlayType> playTypes;
+  int nbOfQuestions;
+  Function onNewAnswer;
 
   IntervalsEarTrainingExercice(
-      {Key? key, required this.intervalTypes, required this.playTypes})
+      {Key? key,
+      required this.intervalTypes,
+      required this.playTypes,
+      required this.onNewAnswer,
+      required this.nbOfQuestions})
       : super(key: key);
 
   @override
@@ -23,6 +31,8 @@ class _IntervalsEarTrainingExerciceState
   Interval? interval;
   PlayType? playType;
   bool? rightAnswer;
+  String? selectedIntervalId;
+
   @override
   void initState() {
     super.initState();
@@ -41,36 +51,32 @@ class _IntervalsEarTrainingExerciceState
   void onClick(id) {
     setState(() {
       rightAnswer = interval!.type.id == id;
+      widget.onNewAnswer(rightAnswer);
+      selectedIntervalId = id;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Intervalles Exercice"),
-        ),
-        body: Column(children: [
-          Staff(song: [
-            [interval!.notesCollection.notes[0]],
-            [interval!.notesCollection.notes[1]]
-          ]),
-          OutlinedButton(
-            child: const Text("Play"),
+    return ListView(children: [
+      Staff(song: interval?.notesCollection.getSheetData() ?? []),
+      OutlinedButton(
+        child: const Text("Play"),
+        onPressed: () {
+          interval!.play(playType!);
+        },
+      ),
+      ...widget.intervalTypes.map(
+        (e) => RoundAnswerButton(
             onPressed: () {
-              interval!.play(playType!);
+              onClick(e.id);
             },
-          ),
-          ...widget.intervalTypes.map(
-            (e) => OutlinedButton(
-                onPressed: () {
-                  onClick(e.id);
-                },
-                child: Text(e.label)),
-          ),
-          if (rightAnswer == true) Text("Oui !"),
-          if (rightAnswer == false) Text("Non"),
-          OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
-        ]));
+            isSelectedAnswer: e.id == selectedIntervalId,
+            isRightAnswer: e.id == interval?.type.id,
+            disabled: rightAnswer != null,
+            text: e.id),
+      ),
+      OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
+    ]);
   }
 }

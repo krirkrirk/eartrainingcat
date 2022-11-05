@@ -2,6 +2,7 @@ import 'package:eartraining/chords/chord.dart';
 import 'package:eartraining/chords/chordType.dart';
 import 'package:eartraining/intervals/interval.dart';
 import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/notes/notesCollection.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
@@ -47,13 +48,13 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
         appBar: AppBar(
           title: Text("Chords exercice"),
         ),
-        body: Container(
+        child: Container(
             child: Column(children: [
-          Staff(song: []),
+          Staff(song: chord!.notesCollection.getSheetData(true)),
           OutlinedButton(
             child: const Text("Play"),
             onPressed: () {
