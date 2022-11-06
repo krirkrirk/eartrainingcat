@@ -15,7 +15,7 @@ class ChordsEarTrainingExercice extends StatefulWidget {
   List<PlayType> playTypes;
   int nbOfQuestions;
   Function onNewAnswer;
-  List answersGrid;
+  List<List<dynamic>> answersGrid;
 
   ChordsEarTrainingExercice(
       {Key? key,
@@ -44,26 +44,29 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
   }
 
   void setNewQuestion() {
-    var chordType = randomFrom(widget.chordTypes);
+    ChordType chordType = randomFrom(widget.chordTypes);
     setState(() {
-      chord = chordType.getRandomInterval();
+      chord = chordType.getRandomChord();
       playType = randomFrom(widget.playTypes);
       rightAnswer = null;
       selectedChordId = null;
-      chord!.play(playType!);
+      // chord!.play(playType!);
     });
   }
 
   void onClick(id) {
-    setState(() {
-      if (selectedChordId == null) {
+    if (selectedChordId == null) {
+      setState(() {
         rightAnswer = chord!.type.id == id;
         widget.onNewAnswer(rightAnswer);
         selectedChordId = id;
-      } else {
-        CHORDS_MAP[id]!.getChordFromBass(chord!.root).play(playType!);
-      }
-    });
+      });
+    } else {
+      var chordConc = CHORDS_MAP[id]!.getChordFromBass(chord!.root);
+      chordConc.play(playType!);
+      debugPrint(chordConc.notesCollection.toString());
+      // CHORDS_MAP[id]!.getChordFromBass(chord!.root).play(playType!);
+    }
   }
 
   @override
@@ -87,6 +90,7 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
       AnswersGrid(
         answersGrid: widget.answersGrid,
         onClick: onClick,
+        models: widget.chordTypes,
         rightId: chord!.type.id,
         selectedId: selectedChordId,
       ),

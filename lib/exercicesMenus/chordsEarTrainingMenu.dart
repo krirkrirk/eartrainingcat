@@ -25,10 +25,12 @@ class ChordsEarTrainingMenu extends StatelessWidget {
               title: "Majeur & mineur",
               exerciceType: ExerciceType.chordsEarTraining,
               answersGrid: const [
-                ["Majeur", "Mineur"],
+                [
+                  {"id": "", "label": "Majeur"},
+                  {"id": "m", "label": "Mineur"},
+                ],
               ],
               playTypes: const [
-                PlayType.harmonic,
                 PlayType.ascendant
               ]),
         ),

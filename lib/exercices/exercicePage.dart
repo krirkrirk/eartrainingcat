@@ -14,13 +14,14 @@ enum ExerciceType {
   chordsEarTraining,
 }
 
-List<T> getTypes<T>(List answersGrid) {
+List<T> getTypes<T>(List<List<dynamic>> answersGrid) {
   var modelMap = modelMaps[T.toString()];
   List<T> res = [];
   answersGrid.forEach((row) {
-    row.forEach((id) {
-      if (id == null) return;
-      res.add(modelMap![id]);
+    row.forEach((el) {
+      if (el == null) return;
+      debugPrint(el is String ? el : el["id"]);
+      res.add(modelMap![el is String ? el : el["id"]]);
     });
   });
   return res;
@@ -29,7 +30,7 @@ List<T> getTypes<T>(List answersGrid) {
 class ExercicePage extends StatefulWidget {
   String title;
   ExerciceType exerciceType;
-  List answersGrid;
+  List<List<dynamic>> answersGrid;
   List<PlayType> playTypes;
   ExercicePage(
       {Key? key,

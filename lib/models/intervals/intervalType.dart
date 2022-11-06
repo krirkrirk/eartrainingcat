@@ -1,13 +1,14 @@
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/theoricTypeModel.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart' hide Interval;
 
 class IntervalType {
   String label;
   String id;
-  String? displayedId;
+  String shortLabel;
   int semitones;
   int scaleSteps;
   int type;
@@ -15,17 +16,16 @@ class IntervalType {
   bool isArpegio;
   int octave;
   IntervalType(
-      {required this.label,
+      {shortLabel,
+      required this.label,
       required this.id,
       required this.semitones,
       required this.type,
-      this.displayedId,
       this.isArpegio = false,
       required this.isDiatonic})
       : scaleSteps = type - 1,
-        octave = type < 9 ? 1 : 2 {
-    displayedId = displayedId ?? id;
-  }
+        octave = type < 9 ? 1 : 2,
+        shortLabel = shortLabel ?? id;
 
   @override
   String toString() {
@@ -179,7 +179,7 @@ final INTERVALS = [
   IntervalType(
     label: "Octave1",
     id: "8",
-    displayedId: "Oct",
+    shortLabel: "Oct",
     semitones: 12,
     type: 8,
     isDiatonic: true,

@@ -39,7 +39,11 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
               exerciceType: ExerciceType.intervalsEarTraining,
               answersGrid: const [
                 ["3m", "3", "5-", "5"],
-                ["7m", "7", "8"]
+                [
+                  "7m",
+                  "7",
+                  {"id": "8", "label": "prout"}
+                ]
               ],
               playTypes: const [
                 PlayType.harmonic,

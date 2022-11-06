@@ -13,7 +13,7 @@ class IntervalsEarTrainingExercice extends StatefulWidget {
   List<PlayType> playTypes;
   int nbOfQuestions;
   Function onNewAnswer;
-  List answersGrid;
+  List<List<dynamic>> answersGrid;
 
   IntervalsEarTrainingExercice(
       {Key? key,
@@ -70,7 +70,7 @@ class _IntervalsEarTrainingExerciceState
     return Expanded(
         child: Column(children: [
       Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.symmetric(vertical: 30),
           child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Expanded(
                 flex: 2,
@@ -85,6 +85,7 @@ class _IntervalsEarTrainingExerciceState
           ])),
       AnswersGrid(
         answersGrid: widget.answersGrid,
+        models: widget.intervalTypes,
         onClick: onClick,
         rightId: interval!.type.id,
         selectedId: selectedIntervalId,

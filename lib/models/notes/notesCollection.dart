@@ -22,6 +22,11 @@ class NotesCollection {
     player.onPlayerComplete.listen((event) {
       playInAscendant(i + 1);
     });
+    // notes[i].play().then((data) {
+    //   data.listen((event) {
+    //     playInAscendant(i + 1);
+    //   });
+    // });
   }
 
   void playInDescendant(i) {
