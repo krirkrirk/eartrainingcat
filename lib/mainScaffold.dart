@@ -14,7 +14,10 @@ class MainScaffold extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           gradient: RadialGradient(
-              radius: 0.4, colors: [Color(0xFFFFF9E2), Color(0xFF2f5d95)]),
+              focal: Alignment.center,
+              focalRadius: 0.005,
+              radius: 0.7,
+              colors: [Color(0xFFFFF9E2), Color(0xFF2f5d95)]),
         ),
         child: child,
       ),

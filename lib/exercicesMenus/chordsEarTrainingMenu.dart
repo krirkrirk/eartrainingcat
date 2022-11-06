@@ -1,10 +1,13 @@
-import 'package:eartraining/chords/chordType.dart';
+import 'package:eartraining/buttons/menuButton.dart';
+import 'package:eartraining/exercices/exercicePage.dart';
+import 'package:eartraining/menu/menuContainer.dart';
+import 'package:eartraining/models/chords/chordType.dart';
 import 'package:eartraining/exercices/chordsEarTrainingExercice.dart';
-import 'package:eartraining/intervals/interval.dart';
-import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/models/intervals/interval.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/exercices/intervalsEarTrainingExercice.dart';
 import 'package:eartraining/mainScaffold.dart';
-import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,23 +16,25 @@ class ChordsEarTrainingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-        appBar: AppBar(
-          title: Text("Chords"),
+    return MenuContainer(
+      appBarTitle: "Accords",
+      buttons: [
+        MenuButton(
+          text: "Majeur & mineur",
+          target: ExercicePage(
+              title: "Majeur & mineur",
+              exerciceType: ExerciceType.chordsEarTraining,
+              answersGrid: const [
+                ["Majeur", "Mineur"],
+              ],
+              playTypes: const [
+                PlayType.harmonic,
+                PlayType.ascendant
+              ]),
         ),
-        child: Column(children: [
-          ElevatedButton(
-            child: const Text("Triades"),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ChordsEarTrainingExercice(
-                      chordsTypes: CHORDS,
-                      playTypes: [PlayType.harmonic, PlayType.ascendant]),
-                ),
-              );
-            },
-          )
-        ]));
+      ],
+      image: "../../assets/images/doubleCroche.png",
+      title: "Types d'accords",
+    );
   }
 }

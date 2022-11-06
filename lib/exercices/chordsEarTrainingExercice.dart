@@ -1,19 +1,29 @@
-import 'package:eartraining/chords/chord.dart';
-import 'package:eartraining/chords/chordType.dart';
-import 'package:eartraining/intervals/interval.dart';
-import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/buttons/playButton.dart';
+import 'package:eartraining/exercices/answersGrid.dart';
+import 'package:eartraining/models/chords/chord.dart';
+import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/intervals/interval.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/mainScaffold.dart';
-import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
 class ChordsEarTrainingExercice extends StatefulWidget {
-  List<ChordType> chordsTypes;
+  List<ChordType> chordTypes;
   List<PlayType> playTypes;
+  int nbOfQuestions;
+  Function onNewAnswer;
+  List answersGrid;
 
   ChordsEarTrainingExercice(
-      {Key? key, required this.chordsTypes, required this.playTypes})
+      {Key? key,
+      required this.chordTypes,
+      required this.playTypes,
+      required this.onNewAnswer,
+      required this.answersGrid,
+      required this.nbOfQuestions})
       : super(key: key);
 
   @override
@@ -25,6 +35,8 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
   Chord? chord;
   PlayType? playType;
   bool? rightAnswer;
+  String? selectedChordId;
+
   @override
   void initState() {
     super.initState();
@@ -32,45 +44,57 @@ class _ChordsEarTrainingExerciceState extends State<ChordsEarTrainingExercice> {
   }
 
   void setNewQuestion() {
-    var chordtype = randomFrom(widget.chordsTypes);
+    var chordType = randomFrom(widget.chordTypes);
     setState(() {
-      chord = chordtype.getRandomChord();
+      chord = chordType.getRandomInterval();
       playType = randomFrom(widget.playTypes);
       rightAnswer = null;
+      selectedChordId = null;
+      chord!.play(playType!);
     });
   }
 
   void onClick(id) {
     setState(() {
-      rightAnswer = chord!.type.id == id;
+      if (selectedChordId == null) {
+        rightAnswer = chord!.type.id == id;
+        widget.onNewAnswer(rightAnswer);
+        selectedChordId = id;
+      } else {
+        CHORDS_MAP[id]!.getChordFromBass(chord!.root).play(playType!);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-        appBar: AppBar(
-          title: Text("Chords exercice"),
-        ),
-        child: Container(
-            child: Column(children: [
-          Staff(song: chord!.notesCollection.getSheetData(true)),
-          OutlinedButton(
-            child: const Text("Play"),
-            onPressed: () {
-              chord!.play(playType!);
-            },
-          ),
-          ...widget.chordsTypes.map(
-            (e) => OutlinedButton(
-                onPressed: () {
-                  onClick(e.id);
-                },
-                child: Text(e.label)),
-          ),
-          if (rightAnswer == true) Text("Oui !"),
-          if (rightAnswer == false) Text("Non"),
-          OutlinedButton(onPressed: setNewQuestion, child: const Text("Next"))
-        ])));
+    return Expanded(
+        child: Column(children: [
+      Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Expanded(
+                flex: 2,
+                child:
+                    Staff(song: chord?.notesCollection.getSheetData() ?? [])),
+            Expanded(
+                child: Column(children: [
+              PlayButton(onPressed: () {
+                chord!.play(playType!);
+              }),
+            ]))
+          ])),
+      AnswersGrid(
+        answersGrid: widget.answersGrid,
+        onClick: onClick,
+        rightId: chord!.type.id,
+        selectedId: selectedChordId,
+      ),
+      if (selectedChordId != null)
+        OutlinedButton(
+          onPressed: setNewQuestion,
+          child: const Text("Next"),
+        )
+    ]));
   }
 }

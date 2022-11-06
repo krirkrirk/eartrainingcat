@@ -1,7 +1,7 @@
-import 'package:eartraining/chords/chord.dart';
-import 'package:eartraining/intervals/intervalType.dart';
-import 'package:eartraining/notes/note.dart';
-import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/models/chords/chord.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/notes/note.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -24,9 +24,14 @@ class ChordType {
             intervalsIds.any((element) => element == "3m" || element == "10m") {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
-      structure.add(intervalType);
+      structure.add(intervalType!);
       structureId += id;
     }
+  }
+  Chord getChordFromBass(Note root) {
+    return Chord(
+        notesCollection: NotesCollection.fromRootAndStructure(root, structure),
+        type: this);
   }
 
   Chord getRandomChord() {

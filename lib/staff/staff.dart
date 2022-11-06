@@ -1,7 +1,8 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:eartraining/main.dart';
-import 'package:eartraining/notes/note.dart';
+import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:ui' as UI;
@@ -16,10 +17,23 @@ class Staff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: Painter(song: song),
-      child: const SizedBox(
-        width: 480.0,
+      foregroundPainter: Painter(song: song),
+      child: Container(
+        width: double.infinity,
         height: 150.0,
+        decoration: BoxDecoration(
+          color: Color(0xFF2f5d95),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFF2f5d95).withOpacity(0.8),
+              spreadRadius: 5,
+              blurRadius: 5,
+              // offset: Offset(0, 3)
+            )
+          ],
+          // shape: BoxShape.circle,
+          borderRadius: new BorderRadius.all(Radius.elliptical(100, 50)),
+        ),
       ),
     );
   }
@@ -35,11 +49,10 @@ class Painter extends CustomPainter {
     var deltaH = sheetHeight / 12;
 
     var paint = Paint()
-      ..color = Colors.teal
+      ..color = Colors.white
       ..strokeWidth = 1;
 
     var sheetWidth = size.width;
-
     var barElementWidth = max(sheetWidth / 10, 20);
 
     var clefWidth = 30;
@@ -84,6 +97,7 @@ class Painter extends CustomPainter {
     var paint = Paint()
       ..color = Colors.white
       ..strokeWidth = 1;
+    canvas.drawImage(gKey, Offset(0, 0), paint);
     for (var i = 3; i < 8; i++) {
       canvas.drawLine(
           Offset(0, i * deltaH), Offset(sheetWidth, i * deltaH), paint);
@@ -92,8 +106,7 @@ class Painter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // if (sharpImage != null)
-    canvas.drawImage(sharpImage, Offset(100.0, 100.0), Paint());
+    // canvas.drawImage(sharpImage, Offset(100.0, 100.0), Paint());
     drawStaff(canvas, size);
     drawNotes(canvas, size);
   }

@@ -1,9 +1,9 @@
-import 'package:eartraining/chords/chord.dart';
-import 'package:eartraining/chords/chordType.dart';
-import 'package:eartraining/intervals/intervalType.dart';
-import 'package:eartraining/notes/note.dart';
-import 'package:eartraining/notes/notesCollection.dart';
-import 'package:eartraining/scales/scale.dart';
+import 'package:eartraining/models/chords/chord.dart';
+import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/notes/note.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/scales/scale.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 
 ///Toujours construire la liste des intervalles dans l'ordre croissant
@@ -22,7 +22,7 @@ class ScaleType {
       : numberOfSound = intervalsIds.length + 1 {
     for (var id in intervalsIds) {
       var intervalType = INTERVALS_MAP[id];
-      structure.add(intervalType);
+      structure.add(intervalType!);
     }
   }
 

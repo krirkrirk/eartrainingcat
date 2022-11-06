@@ -51,14 +51,7 @@ class Note {
     return fullName;
   }
 
-  AudioPlayer getPlayer() {
-    var player = AudioPlayer();
-    player.setSource(AssetSource('../assets/sounds/$soundNumber.mp3'));
-    return player;
-  }
-
   AudioPlayer play() {
-    var player = AudioPlayer();
     player.play(AssetSource('../assets/sounds/$soundNumber.mp3'));
     return player;
   }

@@ -1,11 +1,11 @@
-import 'package:eartraining/chords/chord.dart';
-import 'package:eartraining/chords/chordType.dart';
-import 'package:eartraining/intervals/interval.dart';
-import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/models/chords/chord.dart';
+import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/intervals/interval.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/mainScaffold.dart';
-import 'package:eartraining/notes/notesCollection.dart';
-import 'package:eartraining/scales/scale.dart';
-import 'package:eartraining/scales/scaleType.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/scales/scale.dart';
+import 'package:eartraining/models/scales/scaleType.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;

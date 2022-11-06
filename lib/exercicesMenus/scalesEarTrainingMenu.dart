@@ -1,12 +1,12 @@
-import 'package:eartraining/chords/chordType.dart';
+import 'package:eartraining/models/chords/chordType.dart';
 import 'package:eartraining/exercices/chordsEarTrainingExercice.dart';
 import 'package:eartraining/exercices/scalesEarTrainingExercice.dart';
-import 'package:eartraining/intervals/interval.dart';
-import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/models/intervals/interval.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/exercices/intervalsEarTrainingExercice.dart';
 import 'package:eartraining/mainScaffold.dart';
-import 'package:eartraining/notes/notesCollection.dart';
-import 'package:eartraining/scales/scaleType.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/scales/scaleType.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

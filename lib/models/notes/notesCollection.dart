@@ -1,5 +1,5 @@
-import 'package:eartraining/intervals/intervalType.dart';
-import 'package:eartraining/notes/note.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/cupertino.dart';
 
 enum PlayType { harmonic, ascendant, descendant }

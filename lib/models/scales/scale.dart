@@ -1,7 +1,7 @@
-import 'package:eartraining/chords/chordType.dart';
-import 'package:eartraining/notes/note.dart';
-import 'package:eartraining/notes/notesCollection.dart';
-import 'package:eartraining/scales/scaleType.dart';
+import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/notes/note.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/scales/scaleType.dart';
 import 'package:flutter/cupertino.dart';
 
 class Scale {

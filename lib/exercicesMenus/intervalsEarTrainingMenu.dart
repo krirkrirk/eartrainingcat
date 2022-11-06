@@ -1,9 +1,12 @@
 import 'package:eartraining/exercices/exercicePage.dart';
-import 'package:eartraining/intervals/interval.dart';
-import 'package:eartraining/intervals/intervalType.dart';
+import 'package:eartraining/models/intervals/interval.dart';
+import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/exercices/intervalsEarTrainingExercice.dart';
 import 'package:eartraining/mainScaffold.dart';
-import 'package:eartraining/notes/notesCollection.dart';
+import 'package:eartraining/menu/menuContainer.dart';
+import 'package:eartraining/buttons/menuButton.dart';
+import 'package:eartraining/models/models.dart';
+import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,43 +15,56 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-        appBar: AppBar(
-          title: Text("Intervals"),
+    return MenuContainer(
+      appBarTitle: "Intervalles",
+      buttons: [
+        MenuButton(
+          text: "Diatoniques",
+          target: ExercicePage(
+              title: "Intervals Diatonique",
+              exerciceType: ExerciceType.intervalsEarTraining,
+              answersGrid: const [
+                ["2", "3", "4", "5"],
+                ["6", "7", "8"]
+              ],
+              playTypes: const [
+                PlayType.harmonic,
+                PlayType.ascendant
+              ]),
         ),
-        child: Column(
-          children: [
-            ElevatedButton(
-              child: const Text("Diatoniques"),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ExercicePage(
-                      title: "Intervals Diatonique",
-                      exerciceType: ExerciceType.intervalsEarTraining,
-                      modelTypes: INTERVALS
-                          .where((interval) =>
-                              interval.isDiatonic && interval.octave == 1)
-                          .toList(),
-                      playTypes: [PlayType.harmonic, PlayType.ascendant]),
-                ));
-              },
-            ),
-            ElevatedButton(
-              child: const Text("Arpège"),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ExercicePage(
-                      title: "Intervals arpège",
-                      exerciceType: ExerciceType.intervalsEarTraining,
-                      modelTypes: INTERVALS
-                          .where((interval) =>
-                              interval.isArpegio && interval.octave == 1)
-                          .toList(),
-                      playTypes: [PlayType.harmonic, PlayType.ascendant]),
-                ));
-              },
-            )
-          ],
-        ));
+        MenuButton(
+          text: "Arpège",
+          target: ExercicePage(
+              title: "Notes de l'arpège",
+              exerciceType: ExerciceType.intervalsEarTraining,
+              answersGrid: const [
+                ["3m", "3", "5-", "5"],
+                ["7m", "7", "8"]
+              ],
+              playTypes: const [
+                PlayType.harmonic,
+                PlayType.ascendant
+              ]),
+        ),
+        MenuButton(
+          text: "Chromatic",
+          target: ExercicePage(
+              title: "Chromatique",
+              exerciceType: ExerciceType.intervalsEarTraining,
+              answersGrid: const [
+                ["2m", "2", null, "3m", "3"],
+                ["4", null, "5-", "5"],
+                ["6m", "6", null, "7m", "7"],
+                ["8"]
+              ],
+              playTypes: const [
+                PlayType.harmonic,
+                PlayType.ascendant
+              ]),
+        )
+      ],
+      image: "../../assets/images/doubleCroche.png",
+      title: "Types d'intervalles",
+    );
   }
 }
