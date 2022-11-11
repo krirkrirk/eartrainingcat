@@ -1,50 +1,64 @@
 import 'package:eartraining/models/chords/chord.dart';
 import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/models/theoricModel.dart';
+import 'package:eartraining/models/theoricTypeModel.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart';
 
-///Toujours construire la liste des intervalles dans l'ordre croissant
-
-class ChordType {
-  List<IntervalType> structure = [];
+class ChordType implements TheoricTypeModel<Chord> {
+  IntervalsStructure structure;
   String label;
-  String shortLabel;
+  @override
   String id;
   int numberOfSounds;
   bool isMajor;
   bool isMinor;
   String structureId =
       ""; // eg 3m5- , pour faciliter la recherche par structure
-  ChordType(
-      {required List intervalsIds,
-      required this.label,
-      required this.id,
-      shortLabel})
-      : shortLabel = shortLabel ?? id,
-        numberOfSounds = intervalsIds.length,
+  int inversion = 0;
+  ChordType({
+    required List intervalsIds,
+    required this.label,
+    required this.id,
+  })  : numberOfSounds = intervalsIds.length,
+        structure = IntervalsStructure.fromIds(intervalsIds),
         isMajor =
             intervalsIds.any((element) => element == "3" || element == "10"),
         isMinor =
-            intervalsIds.any((element) => element == "3m" || element == "10m") {
-    for (var id in intervalsIds) {
-      var intervalType = INTERVALS_MAP[id];
-      structure.add(intervalType!);
-      structureId += id;
+            intervalsIds.any((element) => element == "3m" || element == "10m");
+
+  ChordType.fromInversion({required ChordType chordType, this.inversion = 0})
+      : label = "${chordType.label} renversement $inversion",
+        id = "${chordType.id}${inversion > 0 ? ":$inversion" : ""}",
+        structure = chordType.structure.inversion(inversion),
+        numberOfSounds = chordType.numberOfSounds,
+        isMajor = chordType.isMajor,
+        isMinor = chordType.isMinor;
+
+  List<ChordType> getAllInversions() {
+    List<ChordType> res = [];
+    for (var i = 0; i < numberOfSounds; i++) {
+      res.add(ChordType.fromInversion(chordType: this, inversion: i));
     }
+    return res;
   }
-  Chord getChordFromBass(Note root) {
+
+  @override
+  Chord fromBass(Note root) {
     return Chord(
         notesCollection: NotesCollection.fromRootAndStructure(root, structure),
         type: this);
   }
 
-  Chord getRandomChord() {
-    var maxSemitones = structure.last.semitones;
-    var maxScaleSteps = structure.last.scaleSteps;
+  @override
+  Chord getRandom() {
+    var maxSemitones = structure.intervals.last.semitones;
+    var maxScaleSteps = structure.intervals.last.scaleSteps;
     var availableRoots = NOTES.where((note) =>
-        note.isChromatic &&
+        note.type.isChromatic &&
         note.soundNumber + maxSemitones <= maxSoundNumber &&
         note.positionInG + maxScaleSteps <= maxPositionInG);
     var root = randomFrom(availableRoots.toList());
@@ -59,7 +73,7 @@ class ChordType {
   }
 }
 
-var CHORDS = [
+var _DEFAULTCHORDS = [
   ChordType(label: "MAJEUR", id: "", intervalsIds: ["1", "3", "5"]),
   ChordType(label: "DIMINUE", id: "Majb5", intervalsIds: ["1", "3", "5-"]),
   ChordType(label: "AUGMENTE", id: "augm", intervalsIds: ["1", "3", "5+"]),
@@ -95,7 +109,18 @@ var CHORDS = [
   ChordType(label: "7SUS4", id: "7sus4", intervalsIds: ["1", "4", "5", "7m"]),
 ];
 
-//ajouter les ChordType : type (3, 4, ou 5sons), reversetype (renversement), Majchord (majeurs), Minchords (mineurs)
+List<ChordType> getAllChords() {
+  List<ChordType> res = [];
+  _DEFAULTCHORDS.forEach((element) {
+    res.addAll(element.getAllInversions());
+  });
+  res.forEach((chord) {
+    debugPrint("${chord.id}");
+  });
+  return res;
+}
+
+List<ChordType> CHORDS = getAllChords();
 
 final CHORDS_MAP = Map<String, ChordType>.fromIterable(CHORDS,
     key: (item) => item.id, value: (item) => item);

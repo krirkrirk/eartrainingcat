@@ -1,14 +1,11 @@
-import 'package:eartraining/exercices/exercicePage.dart';
+import 'package:eartraining/exercices/basicEarTrainingExercice.dart';
+
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/intervals/intervalType.dart';
-import 'package:eartraining/exercices/intervalsEarTrainingExercice.dart';
-import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/menu/menuContainer.dart';
 import 'package:eartraining/buttons/menuButton.dart';
-import 'package:eartraining/models/models.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Interval;
 
 class IntervalsEarTrainingMenu extends StatelessWidget {
   const IntervalsEarTrainingMenu({Key? key}) : super(key: key);
@@ -20,23 +17,22 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
       buttons: [
         MenuButton(
           text: "Diatoniques",
-          target: ExercicePage(
+          target: BasicEarTrainingExercice<IntervalType, Interval>(
               title: "Intervals Diatonique",
-              exerciceType: ExerciceType.intervalsEarTraining,
+              questionsNumber: 3,
               answersGrid: const [
                 ["2", "3", "4", "5"],
                 ["6", "7", "8"]
               ],
               playTypes: const [
-                PlayType.harmonic,
                 PlayType.ascendant
               ]),
         ),
         MenuButton(
           text: "Arpège",
-          target: ExercicePage(
+          target: BasicEarTrainingExercice<IntervalType, Interval>(
               title: "Notes de l'arpège",
-              exerciceType: ExerciceType.intervalsEarTraining,
+              questionsNumber: 3,
               answersGrid: const [
                 ["3m", "3", "5-", "5"],
                 [
@@ -52,9 +48,9 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Chromatic",
-          target: ExercicePage(
+          target: BasicEarTrainingExercice<IntervalType, Interval>(
               title: "Chromatique",
-              exerciceType: ExerciceType.intervalsEarTraining,
+              questionsNumber: 3,
               answersGrid: const [
                 ["2m", "2", null, "3m", "3"],
                 ["4", null, "5-", "5"],

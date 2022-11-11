@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:math' hide log;
 
+import 'package:eartraining/models/armor/armor.dart';
 import 'package:eartraining/main.dart';
 import 'package:eartraining/models/notes/note.dart';
+import 'package:eartraining/utilities/loadImageAsset.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:ui' as UI;
@@ -12,12 +14,27 @@ import 'package:flutter/painting.dart' show decodeImageFromList;
 
 class Staff extends StatelessWidget {
   List<List<Note>> song;
-  Staff({Key? key, required this.song}) : super(key: key);
+  Armor? armor;
+  String clef;
+  Map<String, UI.Image> images;
+  Staff({
+    Key? key,
+    required this.song,
+    required this.images,
+    this.armor,
+    this.clef = "C",
+  }) : super(key: key) {
+    debugPrint(images.isEmpty.toString());
+    // Future<UI.Image>
+    // loadImageAsset("../assets/images/gKey.png").then((value) {
+    //   bemolImg = value;
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      foregroundPainter: Painter(song: song),
+      foregroundPainter: Painter(song: song, images: images, armor: armor),
       child: Container(
         width: double.infinity,
         height: 150.0,
@@ -42,7 +59,9 @@ class Staff extends StatelessWidget {
 class Painter extends CustomPainter {
   List<List<Note>> song;
   bool loaded = false;
-  Painter({required this.song});
+  Map<String, UI.Image> images;
+  Armor? armor;
+  Painter({required this.song, required this.images, this.armor});
 
   void drawNotes(Canvas canvas, Size size) {
     var sheetHeight = size.height;
@@ -64,7 +83,29 @@ class Painter extends CustomPainter {
 
       for (var note in song[i]) {
         var noteY = ((12) * 2 - note.positionInG) * deltaH / 2;
-        canvas.drawCircle(Offset(barElementCenter, noteY), deltaH / 2, paint);
+        if (note.type.alteration.imgId != "") {
+          paintImage(
+              canvas: canvas,
+              rect: Rect.fromCenter(
+                  center: Offset(barElementCenter - barElementWidth / 2, noteY),
+                  width: deltaH * 2,
+                  height: deltaH * 2),
+              image: images[note.type.alteration.imgId]!,
+              fit: BoxFit.cover);
+
+          // canvas.drawImage(images[note.type.alteration.imgId]!,
+          //     Offset(barElementCenter - barElementWidth / 4, noteY), paint);
+        }
+
+        // canvas.drawCircle(Offset(barElementCenter, noteY), deltaH / 2, paint);
+        paintImage(
+            canvas: canvas,
+            rect: Rect.fromCenter(
+                center: Offset(barElementCenter, noteY),
+                width: deltaH * 1.1,
+                height: deltaH * 1.1),
+            image: images["note_white"]!,
+            fit: BoxFit.cover);
 
         ///Additional lines
         if (note.positionInG > 19) {
@@ -97,11 +138,24 @@ class Painter extends CustomPainter {
     var paint = Paint()
       ..color = Colors.white
       ..strokeWidth = 1;
-    canvas.drawImage(gKey, Offset(0, 0), paint);
+    canvas.drawImage(images["gKey"]!, Offset(0, 0), paint);
     for (var i = 3; i < 8; i++) {
       canvas.drawLine(
           Offset(0, i * deltaH), Offset(sheetWidth, i * deltaH), paint);
     }
+    var armorX = 50.0;
+    armor?.notes.forEach((element) {
+      var armorY = ((12) * 2 - (element.diatonicPosition + 15)) * deltaH / 2;
+      armorX += 10;
+      paintImage(
+          canvas: canvas,
+          rect: Rect.fromCenter(
+              center: Offset(armorX, armorY),
+              width: deltaH * 2,
+              height: deltaH * 2),
+          image: images[element.alteration.imgId]!,
+          fit: BoxFit.cover);
+    });
   }
 
   @override

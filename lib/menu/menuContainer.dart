@@ -1,7 +1,5 @@
-import 'package:eartraining/buttons/playButton.dart';
 import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/buttons/menuButton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MenuContainer extends StatelessWidget {

@@ -63,12 +63,15 @@ flutter:
   assets:
     - assets/sounds/
     - assets/images/
-    - assets/images/sharp.png
     - assets/images/cat.png
     - assets/images/notes.png
     - assets/images/note_white.png
     - assets/images/doubleCroche.png
     - assets/images/small_cat.png
+    - assets/images/bemol.png
+    - assets/images/double_bemol.png
+    - assets/images/sharp.png
+    - assets/images/double_sharp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

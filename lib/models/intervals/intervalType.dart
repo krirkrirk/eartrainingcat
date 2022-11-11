@@ -1,14 +1,16 @@
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/notes/note.dart';
+import 'package:eartraining/models/notes/noteType.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:eartraining/models/theoricTypeModel.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart' hide Interval;
 
-class IntervalType {
-  String label;
+class IntervalType implements TheoricTypeModel<Interval> {
+  @override
   String id;
-  String shortLabel;
+
+  String label;
   int semitones;
   int scaleSteps;
   int type;
@@ -16,16 +18,14 @@ class IntervalType {
   bool isArpegio;
   int octave;
   IntervalType(
-      {shortLabel,
-      required this.label,
+      {required this.label,
       required this.id,
       required this.semitones,
       required this.type,
       this.isArpegio = false,
       required this.isDiatonic})
       : scaleSteps = type - 1,
-        octave = type < 9 ? 1 : 2,
-        shortLabel = shortLabel ?? id;
+        octave = type < 9 ? 1 : 2;
 
   @override
   String toString() {
@@ -33,12 +33,18 @@ class IntervalType {
   }
 
   Note getSecondNoteFromBass(Note note) {
-    return NOTES.firstWhere((el) =>
+    var res = NOTES.firstWhere((el) =>
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
+    debugPrint("note $note interval $this ; ");
+    return res;
+    // return NOTES.firstWhere((el) =>
+    //     el.soundNumber - note.soundNumber == semitones &&
+    //     el.positionInG - note.positionInG == scaleSteps);
   }
 
-  Interval getIntervalFromBass(Note note) {
+  @override
+  Interval fromBass(Note note) {
     var note2 = NOTES.firstWhere((el) =>
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
@@ -47,9 +53,10 @@ class IntervalType {
         type: this, notesCollection: NotesCollection(notes: [note, note2]));
   }
 
-  Interval getRandomInterval() {
+  @override
+  Interval getRandom() {
     var availableRoots = NOTES.where((note) =>
-        note.isChromatic &&
+        note.type.isChromatic &&
         note.soundNumber + semitones <= maxSoundNumber &&
         note.positionInG + scaleSteps <= maxPositionInG);
     var root = randomFrom(availableRoots.toList());
@@ -57,6 +64,14 @@ class IntervalType {
         type: this,
         notesCollection:
             NotesCollection(notes: [root, getSecondNoteFromBass(root)]));
+  }
+
+  NoteType getSecondNote(NoteType root) {
+    var diato = (root.diatonicPosition + this.scaleSteps) % 7;
+    var chroma = (root.chromaticPosition + this.semitones) % 12;
+    return NOTES_TYPES.firstWhere((element) =>
+        element.diatonicPosition == diato &&
+        element.chromaticPosition == chroma);
   }
 }
 
@@ -83,6 +98,12 @@ final INTERVALS = [
       type: 2,
       isDiatonic: false),
   IntervalType(
+      label: "Seconde sur-augmentée",
+      id: "2++",
+      semitones: 4,
+      type: 2,
+      isDiatonic: false),
+  IntervalType(
       label: "Tierce diminuée",
       id: "3-",
       semitones: 2,
@@ -103,6 +124,20 @@ final INTERVALS = [
     isDiatonic: true,
     isArpegio: true,
   ),
+  IntervalType(
+    label: "Tierce augmentée",
+    id: "3+",
+    semitones: 5,
+    type: 3,
+    isDiatonic: false,
+    isArpegio: false,
+  ),
+  IntervalType(
+      label: "Quarte diminuée",
+      id: "4-",
+      semitones: 4,
+      type: 4,
+      isDiatonic: false),
   IntervalType(
       label: "Quarte juste", id: "4", semitones: 5, type: 4, isDiatonic: true),
   IntervalType(
@@ -179,7 +214,6 @@ final INTERVALS = [
   IntervalType(
     label: "Octave1",
     id: "8",
-    shortLabel: "Oct",
     semitones: 12,
     type: 8,
     isDiatonic: true,

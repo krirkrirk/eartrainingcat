@@ -1,3 +1,4 @@
+import 'package:eartraining/exercicesMenus/armorsRecognitionMenu.dart';
 import 'package:eartraining/exercicesMenus/chordsEarTrainingMenu.dart';
 import 'package:eartraining/exercicesMenus/intervalsEarTrainingMenu.dart';
 import 'package:eartraining/exercicesMenus/scalesEarTrainingMenu.dart';
@@ -20,6 +21,7 @@ class Home extends StatelessWidget {
         MenuButton(text: "Intervalles", target: IntervalsEarTrainingMenu()),
         MenuButton(text: "Accords", target: ChordsEarTrainingMenu()),
         MenuButton(text: "Gammes", target: ScalesEarTrainingMenu()),
+        MenuButton(text: "Armures", target: ArmorsRecognitionMenu()),
       ],
     );
   }

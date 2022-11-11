@@ -11,19 +11,13 @@ import 'dart:ui' as UI;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// load the image async and then draw with `canvas.drawImage(image, Offset.zero, Paint());`
-Future<UI.Image> loadImageAsset(String assetName) async {
-  final data = await rootBundle.load(assetName);
-  return decodeImageFromList(data.buffer.asUint8List());
-}
-
-late UI.Image sharpImage;
-late UI.Image gKey;
-
 void main() {
   runApp(const MyApp());
 }
 
+//!!!TODOOOOOO
+///réfléchir au concept de taonlité
+///
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -67,6 +61,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+late Map<String, UI.Image> IMAGES;
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -84,17 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
         Duration(seconds: 1),
         () => setState(() {
               ready = true;
+              loaded = true;
             }));
 
-    loadImageAsset("../assets/images/gKey.png").then((value) {
-      gKey = value;
-    });
-    loadImageAsset("../assets/images/sharp.png").then((value) {
-      sharpImage = value;
-      setState(() {
-        loaded = true;
-      });
-    });
+    // loadImageAsset("../assets/images/gKey.png").then((value) {
+    //   gKey = value;
+    // });
+    // loadImageAsset("../assets/images/sharp.png").then((value) {
+    //   sharpImage = value;
+    //   setState(() {
+    //     loaded = true;
+    //   });
+    // });
   }
 
   @override

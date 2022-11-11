@@ -33,7 +33,7 @@ class _RoundAnswerButtonState extends State<RoundAnswerButton> {
       onPressed: widget.onPressed,
       style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
-          minimumSize: Size(70, 70),
+          minimumSize: Size(40, 50),
           backgroundColor: widget.isAnswerRevealed
               ? widget.isRightAnswer
                   ? Colors.green
@@ -43,7 +43,7 @@ class _RoundAnswerButtonState extends State<RoundAnswerButton> {
               : null),
       child: Text(
         widget.text,
-        style: TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: 20),
       ),
     );
   }

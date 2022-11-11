@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,32 +13,42 @@ class NotesCollection {
   NotesCollection({required this.notes});
 
   NotesCollection.fromRootAndStructure(
-      Note root, List<IntervalType> intervals) {
-    for (var interval in intervals) {
+      Note root, IntervalsStructure structure) {
+    for (var interval in structure.intervals) {
       notes.add(interval.getSecondNoteFromBass(root));
       // debugPrint(notes.toString());
     }
   }
 
-  void playInAscendant(i) {
+  void playInAscendant(i) async {
     if (i == notes.length) return;
     var player = notes[i].play();
-    player.onPlayerComplete.listen((event) {
+    StreamSubscription? subscription;
+    subscription = player.onPlayerComplete.listen((event) {
       playInAscendant(i + 1);
+      debugPrint("player $i complete");
+      subscription?.cancel();
     });
-    // notes[i].play().then((data) {
-    //   data.listen((event) {
-    //     playInAscendant(i + 1);
-    //   });
+    player.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.stopped) {
+        debugPrint("player $i stopped");
+
+        subscription?.cancel();
+      }
+    });
+
+    // await notes[i].play();
+    // .then((data) {
+    // playInAscendant(i + 1);
     // });
   }
 
   void playInDescendant(i) {
     if (i < 0) return;
-    var player = notes[i].play();
-    player.onPlayerComplete.listen((event) {
-      playInAscendant(i - 1);
-    });
+    // var player = notes[i].play();
+    // player.onPlayerComplete.listen((event) {
+    //   playInAscendant(i - 1);
+    // });
   }
 
   void playInHarmonic() {
@@ -55,6 +69,12 @@ class NotesCollection {
         playInAscendant(0);
         break;
     }
+  }
+
+  void stop() {
+    notes.forEach((element) {
+      element.player.stop();
+    });
   }
 
   List<List<Note>> getSheetData([isHarmonic = false]) {
