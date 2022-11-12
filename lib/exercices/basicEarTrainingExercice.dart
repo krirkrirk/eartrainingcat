@@ -3,20 +3,22 @@ import 'package:eartraining/buttons/playButton.dart';
 import 'package:eartraining/exercices/answersGrid.dart';
 import 'package:eartraining/exercices/endExerciceDialog.dart';
 import 'package:eartraining/exercices/exerciceFooter.dart';
-import 'package:eartraining/exercices/getTypesFromAnswerGrid.dart';
-import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/exercices/getExercisablesFromAnswerGrid.dart';
+import 'package:eartraining/models/exercisable/exercisable.dart';
+import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/mainScaffold.dart';
+import 'package:eartraining/models/model.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
-import 'package:eartraining/models/theoricModel.dart';
-import 'package:eartraining/models/theoricTypeModel.dart';
+import 'package:eartraining/models/absoluteModel.dart';
+import 'package:eartraining/models/modelStructure.dart';
 import 'package:eartraining/staff/staff.dart';
 import 'package:eartraining/staff/staffContainer.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-class BasicEarTrainingExercice<Type extends TheoricTypeModel,
-    Concrete extends TheoricModel> extends StatefulWidget {
-  List<Type>? modelTypes;
+class BasicEarTrainingExercice<ExercisableType extends Exercisable>
+    extends StatefulWidget {
+  List<Exercisable>? exercisables;
   final List<PlayType> playTypes;
 
   final List<List<dynamic>>? answersGrid;
@@ -29,27 +31,28 @@ class BasicEarTrainingExercice<Type extends TheoricTypeModel,
     required this.playTypes,
     required this.questionsNumber,
     this.answersGrid,
-    this.modelTypes,
+    this.exercisables,
   }) : super(key: key) {
-    if (modelTypes == null) {
-      modelTypes ??= getTypesFromAnswersGrid<Type>(answersGrid!);
+    if (exercisables == null) {
+      exercisables =
+          getExercisablesFromAnswersGrid<ExercisableType>(answersGrid!);
     }
   }
 
   @override
-  _BasicEarTrainingExerciceState<Type, Concrete> createState() =>
-      _BasicEarTrainingExerciceState<Type, Concrete>();
+  _BasicEarTrainingExerciceState<ExercisableType> createState() =>
+      _BasicEarTrainingExerciceState<ExercisableType>();
 }
 
-class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
-    Concrete extends TheoricModel> extends State<BasicEarTrainingExercice> {
-  Concrete? model;
+class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
+    extends State<BasicEarTrainingExercice> {
+  Exercisable? exercisable;
   PlayType? playType;
   bool? isRightAnswer;
   int answersCount = 0;
   int rightAnswersCount = 0;
-  String? selectedModelId;
-  Concrete? modelBeingPlayed;
+  String? selectedExercisableId;
+  Exercisable? exercisableBeingPlayed;
 
   @override
   void initState() {
@@ -58,20 +61,21 @@ class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
   }
 
   void setNewQuestion() {
-    var modelType = randomFrom(widget.modelTypes!);
-    modelBeingPlayed?.stop();
+    ExercisableType randExercisable = randomFrom(widget.exercisables!);
+    exercisableBeingPlayed?.stop();
     setState(() {
-      model = modelBeingPlayed = modelType.getRandom() as Concrete;
+      ExercisableType exercisable = exercisableBeingPlayed =
+          randExercisable.instantiate() as ExercisableType;
       playType = randomFrom(widget.playTypes);
       isRightAnswer = null;
-      selectedModelId = null;
-      model?.play(playType!);
+      selectedExercisableId = null;
+      exercisable?.play(playType!);
     });
   }
 
   void onTryAgain() {
     Navigator.pop(context);
-    modelBeingPlayed!.stop();
+    exercisableBeingPlayed?.stop();
     setState(() {
       answersCount = 0;
       rightAnswersCount = 0;
@@ -80,11 +84,11 @@ class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
   }
 
   void onClick(id) {
-    modelBeingPlayed!.stop();
+    exercisableBeingPlayed?.stop();
     setState(() {
-      if (selectedModelId == null) {
-        selectedModelId = id;
-        isRightAnswer = model!.type.id == id;
+      if (selectedExercisableId == null) {
+        selectedExercisableId = id;
+        isRightAnswer = exercisable!.id == id;
         answersCount++;
         rightAnswersCount += isRightAnswer! ? 1 : 0;
         if (answersCount == widget.questionsNumber) {
@@ -102,10 +106,10 @@ class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
                   ));
         }
       } else {
-        var typeSelected =
-            widget.modelTypes!.firstWhere(((element) => element.id == id));
-        modelBeingPlayed = typeSelected.fromBass(model!.root);
-        modelBeingPlayed!.play(playType!);
+        var exercisable =
+            widget.exercisables!.firstWhere(((element) => element.id == id));
+        exercisableBeingPlayed = exercisable.projectOnNote(exercisable!.root!);
+        exercisableBeingPlayed?.play(playType!);
       }
     });
   }
@@ -113,7 +117,7 @@ class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
   @override
   void dispose() {
     super.dispose();
-    modelBeingPlayed?.stop();
+    exercisableBeingPlayed?.stop();
   }
 
   @override
@@ -131,25 +135,23 @@ class _BasicEarTrainingExerciceState<Type extends TheoricTypeModel,
                       Expanded(
                           flex: 2,
                           child: StaffContainer(
-                              song:
-                                  model?.notesCollection.getSheetData() ?? [])),
+                              song: exercisable?.getSheetData() ?? [])),
                       Expanded(
                           child: Column(children: [
                         PlayButton(onPressed: () {
-                          modelBeingPlayed = model;
-
-                          model?.play(playType!);
+                          exercisableBeingPlayed = exercisable;
+                          exercisable?.play(playType!);
                         }),
                       ]))
                     ])),
             AnswersGrid(
               answersGrid: widget.answersGrid,
-              models: widget.modelTypes,
+              models: widget.exercisables,
               onClick: onClick,
-              rightId: model!.type.id,
-              selectedId: selectedModelId,
+              rightId: exercisable!.id,
+              selectedId: selectedExercisableId,
             ),
-            if (selectedModelId != null)
+            if (selectedExercisableId != null)
               OutlinedButton(
                 onPressed: setNewQuestion,
                 child: const Text("Next"),

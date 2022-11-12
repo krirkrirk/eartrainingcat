@@ -1,4 +1,4 @@
-import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:flutter/foundation.dart';
 

@@ -144,7 +144,7 @@ class Painter extends CustomPainter {
           Offset(0, i * deltaH), Offset(sheetWidth, i * deltaH), paint);
     }
     var armorX = 50.0;
-    armor?.notes.forEach((element) {
+    armor?.notesAltered.absoluteNotes.forEach((element) {
       var armorY = ((12) * 2 - (element.diatonicPosition + 15)) * deltaH / 2;
       armorX += 10;
       paintImage(

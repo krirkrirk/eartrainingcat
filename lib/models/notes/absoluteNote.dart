@@ -20,8 +20,7 @@ class Alteration {
         imgId = _alterations[label]![1];
 }
 
-///NoteType
-class NoteType {
+class AbsoluteNote {
   String letter;
   Alteration alteration;
   String id;
@@ -35,7 +34,7 @@ class NoteType {
   int chromaticPosition;
 
   bool isChromatic = true;
-  NoteType({required this.letter, required this.alteration})
+  AbsoluteNote({required this.letter, required this.alteration})
       : id = letter + alteration.label,
         diatonicPosition = LETTERS.indexOf(letter),
         chromaticPosition =
@@ -49,18 +48,22 @@ class NoteType {
             ? -1
             : 0;
   }
+
+  Note projectOnOctave(int octave) {
+    return NOTES_MAP["$id$octave"]!;
+  }
 }
 
-List<NoteType> _getNotesTypes() {
-  List<NoteType> res = [];
+List<AbsoluteNote> _getNotesTypes() {
+  List<AbsoluteNote> res = [];
   LETTERS.forEach(((letter) {
     _alterations.forEach((key, value) {
-      res.add(NoteType(letter: letter, alteration: Alteration(label: key)));
+      res.add(AbsoluteNote(letter: letter, alteration: Alteration(label: key)));
     });
   }));
   return res;
 }
 
-List<NoteType> NOTES_TYPES = _getNotesTypes();
-var NOTES_TYPES_MAP = Map<String, NoteType>.fromIterable(NOTES_TYPES,
+List<AbsoluteNote> ABSOLUTE_NOTES = _getNotesTypes();
+var NOTES_TYPES_MAP = Map<String, AbsoluteNote>.fromIterable(ABSOLUTE_NOTES,
     key: (item) => item.id, value: (item) => item);

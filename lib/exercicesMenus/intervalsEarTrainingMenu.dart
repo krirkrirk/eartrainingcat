@@ -1,7 +1,7 @@
 import 'package:eartraining/exercices/basicEarTrainingExercice.dart';
 
 import 'package:eartraining/models/intervals/interval.dart';
-import 'package:eartraining/models/intervals/intervalType.dart';
+import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/menu/menuContainer.dart';
 import 'package:eartraining/buttons/menuButton.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
@@ -17,7 +17,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
       buttons: [
         MenuButton(
           text: "Diatoniques",
-          target: BasicEarTrainingExercice<IntervalType, Interval>(
+          target: BasicEarTrainingExercice<IntervalStructure>(
               title: "Intervals Diatonique",
               questionsNumber: 3,
               answersGrid: const [
@@ -30,7 +30,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Arpège",
-          target: BasicEarTrainingExercice<IntervalType, Interval>(
+          target: BasicEarTrainingExercice<IntervalStructure>(
               title: "Notes de l'arpège",
               questionsNumber: 3,
               answersGrid: const [
@@ -48,7 +48,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Chromatic",
-          target: BasicEarTrainingExercice<IntervalType, Interval>(
+          target: BasicEarTrainingExercice<IntervalStructure>(
               title: "Chromatique",
               questionsNumber: 3,
               answersGrid: const [

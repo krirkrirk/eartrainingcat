@@ -1,12 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:eartraining/models/notes/noteType.dart';
+import 'package:eartraining/models/notes/absoluteNote.dart';
 import 'package:flutter/cupertino.dart';
 
 var maxSoundNumber = 37;
 var maxPositionInG = 22;
 
 class Note {
-  NoteType type;
+  AbsoluteNote type;
   String id;
   int octave; //C0 to C3
   int soundNumber; // C0 is 1
@@ -39,7 +39,7 @@ class Note {
 List<Note> getAllNotes() {
   var res = <Note>[];
   for (var octave = 0; octave < 3; octave++) {
-    NOTES_TYPES.forEach((noteType) {
+    ABSOLUTE_NOTES.forEach((noteType) {
       var id = noteType.id + octave.toString();
       if ([
         "Cbb0",

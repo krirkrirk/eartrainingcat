@@ -1,5 +1,5 @@
 import 'dart:math';
 
-randomFrom(List list) {
+randomFrom<T>(List<T> list) {
   return list[Random().nextInt(list.length)];
 }

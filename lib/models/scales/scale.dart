@@ -1,21 +1,21 @@
-import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/chords/chordStructure.dart';
+import 'package:eartraining/models/model.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
-import 'package:eartraining/models/scales/scaleType.dart';
-import 'package:eartraining/models/theoricModel.dart';
+import 'package:eartraining/models/scales/scaleStructure.dart';
+import 'package:eartraining/models/absoluteModel.dart';
 import 'package:flutter/cupertino.dart';
 
-class Scale implements TheoricModel<ScaleType> {
+class Scale implements Model<ScaleStructure> {
   @override
-  ScaleType type;
+  ScaleStructure structure;
   @override
   NotesCollection notesCollection;
-
   String name;
   @override
   Note root;
-  Scale({required this.type, required this.notesCollection})
-      : name = notesCollection.notes[0].id + type.label,
+  Scale({required this.structure, required this.notesCollection})
+      : name = notesCollection.notes[0].id + structure.label,
         root = notesCollection.notes[0];
 
   @override
@@ -28,13 +28,6 @@ class Scale implements TheoricModel<ScaleType> {
   stop() {
     notesCollection.stop();
   }
-  // getMode(int degree) {
-  //   var modeStructure = type.getModeStructure(degree);
-  //   debugPrint(modeStructure.toString());
-  //   debugPrint(NotesCollection.fromRootAndStructure(
-  //           notesCollection.notes[0], modeStructure)
-  //       .toString());
-  // }
 
   @override
   String toString() {

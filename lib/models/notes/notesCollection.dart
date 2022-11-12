@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:eartraining/models/intervals/intervalType.dart';
 import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +13,7 @@ class NotesCollection {
   NotesCollection.fromRootAndStructure(
       Note root, IntervalsStructure structure) {
     for (var interval in structure.intervals) {
-      notes.add(interval.getSecondNoteFromBass(root));
-      // debugPrint(notes.toString());
+      notes.add(interval.resultFromBass(root));
     }
   }
 
@@ -36,11 +33,6 @@ class NotesCollection {
         subscription?.cancel();
       }
     });
-
-    // await notes[i].play();
-    // .then((data) {
-    // playInAscendant(i + 1);
-    // });
   }
 
   void playInDescendant(i) {

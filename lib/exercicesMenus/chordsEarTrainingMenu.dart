@@ -3,7 +3,7 @@ import 'package:eartraining/exercices/basicEarTrainingExercice.dart';
 
 import 'package:eartraining/menu/menuContainer.dart';
 import 'package:eartraining/models/chords/chord.dart';
-import 'package:eartraining/models/chords/chordType.dart';
+import 'package:eartraining/models/chords/chordStructure.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class ChordsEarTrainingMenu extends StatelessWidget {
       buttons: [
         MenuButton(
           text: "Majeur & mineur",
-          target: BasicEarTrainingExercice<ChordType, Chord>(
+          target: BasicEarTrainingExercice<ChordStructure>(
               title: "Majeur & mineur",
               questionsNumber: 3,
               answersGrid: const [
@@ -33,7 +33,7 @@ class ChordsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Accords majeur renversés",
-          target: BasicEarTrainingExercice<ChordType, Chord>(
+          target: BasicEarTrainingExercice<ChordStructure>(
               title: "Accord majeur renversé 3 sons",
               questionsNumber: 3,
               answersGrid: const [

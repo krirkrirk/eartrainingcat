@@ -1,20 +1,16 @@
 import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
-import 'package:eartraining/models/theoricTypeModel.dart';
+import 'package:eartraining/models/modelStructure.dart';
 
-abstract class TheoricModel<Type extends TheoricTypeModel> {
+abstract class Model<Structure extends ModelStructure> {
   NotesCollection notesCollection;
-  Type type;
+  Structure structure;
   Note root;
   void play(PlayType playType);
   void stop() {
     notesCollection.stop();
   }
 
-  TheoricModel({required this.notesCollection, required this.type})
+  Model({required this.notesCollection, required this.structure})
       : root = notesCollection.notes[0];
-
-  // play([playType]) {
-  //   notesCollection.play(playType: playType);
-  // }
 }
