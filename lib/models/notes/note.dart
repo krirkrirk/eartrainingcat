@@ -6,7 +6,7 @@ var maxSoundNumber = 37;
 var maxPositionInG = 22;
 
 class Note {
-  AbsoluteNote type;
+  AbsoluteNote absoluteNote;
   String id;
   int octave; //C0 to C3
   int soundNumber; // C0 is 1
@@ -14,12 +14,13 @@ class Note {
   AudioPlayer player;
 
   Note({
-    required this.type,
+    required this.absoluteNote,
     required this.octave,
-  })  : id = type.id + octave.toString(),
-        soundNumber =
-            1 + (octave + type.octaveIncrement) * 12 + type.chromaticPosition,
-        positionInG = 1 + (octave) * 7 + type.diatonicPosition,
+  })  : id = absoluteNote.id + octave.toString(),
+        soundNumber = 1 +
+            (octave + absoluteNote.octaveIncrement) * 12 +
+            absoluteNote.chromaticPosition,
+        positionInG = 1 + (octave) * 7 + absoluteNote.diatonicPosition,
         player = AudioPlayer() {
     player.setSource(AssetSource('../assets/sounds/$soundNumber.mp3'));
   }
@@ -28,6 +29,12 @@ class Note {
     player.play(AssetSource('../assets/sounds/$soundNumber.mp3'),
         position: Duration(seconds: 1));
     return player;
+  }
+
+  List<List<Note>> getSheetData() {
+    return [
+      [this]
+    ];
   }
 
   @override
@@ -46,14 +53,14 @@ List<Note> getAllNotes() {
         "Cb0",
         "B##2",
       ].contains(id)) return;
-      res.add(Note(octave: octave, type: noteType));
+      res.add(Note(octave: octave, absoluteNote: noteType));
     });
   }
-  res.add(Note(type: NOTES_TYPES_MAP["C"]!, octave: 3));
-  res.add(Note(type: NOTES_TYPES_MAP["Cb"]!, octave: 3));
-  res.add(Note(type: NOTES_TYPES_MAP["Cbb"]!, octave: 3));
-  res.forEach((note) => debugPrint(
-      "$note , sound ${note.soundNumber} , pos ${note.positionInG}"));
+  res.add(Note(absoluteNote: ABSOLUTE_NOTES_MAP["C"]!, octave: 3));
+  res.add(Note(absoluteNote: ABSOLUTE_NOTES_MAP["Cb"]!, octave: 3));
+  res.add(Note(absoluteNote: ABSOLUTE_NOTES_MAP["Cbb"]!, octave: 3));
+  // res.forEach((note) => debugPrint(
+  //     "$note , sound ${note.soundNumber} , pos ${note.positionInG}"));
   return res;
 }
 

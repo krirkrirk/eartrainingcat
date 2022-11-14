@@ -9,7 +9,7 @@ class Ladder {
   int numberOfSounds;
   List<String> modes;
   Ladder(
-      {required List intervalsIds,
+      {required List<String> intervalsIds,
       required this.label,
       required this.id,
       required this.modes})

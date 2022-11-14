@@ -1,6 +1,5 @@
 import 'package:eartraining/models/chords/absoluteChord.dart';
 import 'package:eartraining/models/chords/chord.dart';
-import 'package:eartraining/models/exercisable/exercisable.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:eartraining/models/notes/absoluteNotesCollection.dart';
@@ -12,9 +11,8 @@ import 'package:eartraining/models/modelStructure.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart';
 
-class ChordStructure
-    implements ModelStructure<Chord, AbsoluteChord>, Exercisable {
-  IntervalsStructure structure;
+class ChordStructure implements ModelStructure<Chord, AbsoluteChord> {
+  IntervalsStructure intervalsStructure;
   @override
   String label;
   @override
@@ -24,15 +22,15 @@ class ChordStructure
   bool isMinor;
   Note? root;
   AbsoluteNote? absoluteRoot;
-  String structureId =
-      ""; // eg 3m5- , pour faciliter la recherche par structure
   int inversion = 0;
+  String structureId;
   ChordStructure({
-    required List intervalsIds,
+    required List<String> intervalsIds,
     required this.label,
     required this.id,
   })  : numberOfSounds = intervalsIds.length,
-        structure = IntervalsStructure.fromIds(intervalsIds),
+        structureId = intervalsIds.reduce((acc, curr) => acc + curr + "/"),
+        intervalsStructure = IntervalsStructure.fromIds(intervalsIds),
         isMajor =
             intervalsIds.any((element) => element == "3" || element == "10"),
         isMinor =
@@ -42,8 +40,11 @@ class ChordStructure
       {required ChordStructure chordStructure, this.inversion = 0})
       : label = "${chordStructure.label} renversement $inversion",
         id = "${chordStructure.id}${inversion > 0 ? ":$inversion" : ""}",
-        structure = chordStructure.structure.inversion(inversion),
+        intervalsStructure =
+            chordStructure.intervalsStructure.inversion(inversion),
         numberOfSounds = chordStructure.numberOfSounds,
+        structureId =
+            chordStructure.structureId + (inversion > 0 ? ":$inversion" : ""),
         isMajor = chordStructure.isMajor,
         isMinor = chordStructure.isMinor;
 
@@ -59,7 +60,7 @@ class ChordStructure
   Chord projectOnNote(Note rootNote) {
     return Chord(
         notesCollection:
-            NotesCollection.fromRootAndStructure(rootNote, structure),
+            NotesCollection.fromRootAndStructure(rootNote, intervalsStructure),
         structure: this);
   }
 
@@ -67,47 +68,32 @@ class ChordStructure
   AbsoluteChord projectOnAbsoluteNote(AbsoluteNote rootAbsoluteNote) {
     return AbsoluteChord(
         absoluteNotesCollection: AbsoluteNotesCollection.fromRootAndStructure(
-            rootAbsoluteNote, structure),
+            rootAbsoluteNote, intervalsStructure),
         structure: this);
   }
 
   @override
   Chord getRandomModel() {
-    var maxSemitones = structure.intervals.last.semitones;
-    var maxScaleSteps = structure.intervals.last.scaleSteps;
+    var maxSemitones = intervalsStructure.intervals.last.semitones;
+    var maxScaleSteps = intervalsStructure.intervals.last.scaleSteps;
     var availableRoots = NOTES.where((note) =>
-        note.type.isChromatic &&
+        note.absoluteNote.isChromatic &&
         note.soundNumber + maxSemitones <= maxSoundNumber &&
         note.positionInG + maxScaleSteps <= maxPositionInG);
     var randRoot = randomFrom(availableRoots.toList());
     return Chord(
         structure: this,
         notesCollection:
-            NotesCollection.fromRootAndStructure(randRoot, structure));
+            NotesCollection.fromRootAndStructure(randRoot, intervalsStructure));
   }
 
-  @override
-  List<List<Note>> getSheetData() {
-    // TODO: implement getSheetData
-    throw UnimplementedError();
-  }
-
-  @override
-  void Function()? stop() {
-    // TODO: implement stop
-    throw UnimplementedError();
-  }
-
-  @override
-  void Function()? play(PlayType playtype) {
-    // TODO: implement stop
-    throw UnimplementedError();
-  }
-
-  @override
-  instantiate() {
-    // TODO: implement instantiate
-    throw UnimplementedError();
+  List<String> getNonInversedChordStructureIds() {
+    if (inversion == 0)
+      return intervalsStructure.ids;
+    else {
+      ChordStructure nonInversed = CHORDS_MAP[id.substring(0, id.length - 2)]!;
+      return nonInversed.intervalsStructure.ids;
+    }
   }
 
   @override
@@ -166,9 +152,9 @@ List<ChordStructure> getAllChords() {
   _DEFAULTCHORDS.forEach((element) {
     res.addAll(element.getAllInversions());
   });
-  res.forEach((chord) {
-    debugPrint("${chord.id}");
-  });
+  // res.forEach((chord) {
+  //   debugPrint("${chord.id}");
+  // });
   return res;
 }
 

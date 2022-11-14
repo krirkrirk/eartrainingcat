@@ -24,7 +24,7 @@ class Staff extends StatelessWidget {
     this.armor,
     this.clef = "C",
   }) : super(key: key) {
-    debugPrint(images.isEmpty.toString());
+    // debugPrint(images.isEmpty.toString());
     // Future<UI.Image>
     // loadImageAsset("../assets/images/gKey.png").then((value) {
     //   bemolImg = value;
@@ -83,14 +83,14 @@ class Painter extends CustomPainter {
 
       for (var note in song[i]) {
         var noteY = ((12) * 2 - note.positionInG) * deltaH / 2;
-        if (note.type.alteration.imgId != "") {
+        if (note.absoluteNote.alteration.imgId != "") {
           paintImage(
               canvas: canvas,
               rect: Rect.fromCenter(
                   center: Offset(barElementCenter - barElementWidth / 2, noteY),
                   width: deltaH * 2,
                   height: deltaH * 2),
-              image: images[note.type.alteration.imgId]!,
+              image: images[note.absoluteNote.alteration.imgId]!,
               fit: BoxFit.cover);
 
           // canvas.drawImage(images[note.type.alteration.imgId]!,

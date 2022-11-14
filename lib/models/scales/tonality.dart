@@ -13,7 +13,7 @@ sortLetters(List<String> letters) {
   letters.sort((a, b) => LETTERS.indexOf(a) - LETTERS.indexOf(b));
 }
 
-class Tonality implements ModelStructure {
+class Tonality {
   @override
   String id;
   String label;
@@ -24,7 +24,7 @@ class Tonality implements ModelStructure {
 
   Tonality({required this.tonic, this.isMinor = false, required alteration})
       : label = "${tonic.id} ${isMinor ? "Mineure" : "Majeure"}",
-        id = "${tonic.id} ${isMinor ? "m" : ""}",
+        id = "${tonic.id}${isMinor ? "m" : ""}",
         absoluteScale = SCALES_MAP["diato-${isMinor ? "6" : "1"}"]!
             .projectOnAbsoluteNote(tonic),
         armor = Armor(alteration: alteration);
@@ -32,19 +32,8 @@ class Tonality implements ModelStructure {
   //     root: tonic,
   //     structure: SCALES_MAP["diato-${isMinor ? "6" : "1"}"]!);
 
-  @override
-  getRandomModel() {
-    throw UnimplementedError();
-  }
-
-  @override
-  projectOnAbsoluteNote(AbsoluteNote note) {
-    throw UnimplementedError();
-  }
-
-  @override
-  projectOnNote(Note note) {
-    throw UnimplementedError();
+  Armor getSheetData() {
+    return armor;
   }
 }
 
@@ -88,11 +77,11 @@ List<Tonality> getAllTonalities() {
   List<Tonality> res = [];
   _majors.forEach((key, value) {
     res.add(Tonality(
-        isMinor: false, tonic: NOTES_TYPES_MAP[key]!, alteration: value));
+        isMinor: false, tonic: ABSOLUTE_NOTES_MAP[key]!, alteration: value));
   });
   _minors.forEach((key, value) {
     res.add(Tonality(
-        isMinor: true, tonic: NOTES_TYPES_MAP[key]!, alteration: value));
+        isMinor: true, tonic: ABSOLUTE_NOTES_MAP[key]!, alteration: value));
   });
   return res;
 }

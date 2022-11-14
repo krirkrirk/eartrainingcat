@@ -12,11 +12,11 @@ class Chord implements Model<ChordStructure> {
   NotesCollection notesCollection;
   String name;
   @override
-  Note root;
+  Note bass;
 
   Chord({required this.structure, required this.notesCollection})
       : name = notesCollection.notes[0].id + structure.id,
-        root = notesCollection.notes[0];
+        bass = notesCollection.notes[0];
 
   @override
   play(PlayType playType) {
@@ -27,6 +27,11 @@ class Chord implements Model<ChordStructure> {
   @override
   stop() {
     notesCollection.stop();
+  }
+
+  @override
+  List<List<Note>> getSheetData(bool isHarmonic) {
+    return notesCollection.getSheetData(true);
   }
 
   @override

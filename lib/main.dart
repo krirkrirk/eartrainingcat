@@ -1,15 +1,8 @@
 import 'dart:async';
-
-import 'package:eartraining/exercicesMenus/chordsEarTrainingMenu.dart';
-import 'package:eartraining/exercicesMenus/intervalsEarTrainingMenu.dart';
-import 'package:eartraining/exercicesMenus/scalesEarTrainingMenu.dart';
-import 'package:eartraining/home.dart';
-import 'package:eartraining/mainScaffold.dart';
+import 'package:eartraining/pages/home.dart';
 import 'package:eartraining/splashScreen.dart';
 import 'dart:ui' as UI;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());

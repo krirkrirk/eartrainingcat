@@ -1,13 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:eartraining/buttons/playButton.dart';
-import 'package:eartraining/exercices/answersGrid.dart';
+import 'package:eartraining/exercices/answersGrid/answersGrid.dart';
 import 'package:eartraining/exercices/endExerciceDialog.dart';
 import 'package:eartraining/exercices/exerciceFooter.dart';
-import 'package:eartraining/exercices/getExercisablesFromAnswerGrid.dart';
-import 'package:eartraining/models/exercisable/exercisable.dart';
+import 'package:eartraining/exercices/utils/getStructuresFromAnswersGrid.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/models/model.dart';
+import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:eartraining/models/absoluteModel.dart';
 import 'package:eartraining/models/modelStructure.dart';
@@ -16,14 +16,19 @@ import 'package:eartraining/staff/staffContainer.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-class BasicEarTrainingExercice<ExercisableType extends Exercisable>
-    extends StatefulWidget {
-  List<Exercisable>? exercisables;
+///Facon de créer l'exo :
+///- passer answersGrid pour avoir une disposition custom (sinon automatisé mais alors passer modelStructures)
+///- passer candidateBasses pour spécifier les absses (sinon utiliser les getRandomModel())
+class BasicEarTrainingExercice<Concrete extends Model,
+    Structure extends ModelStructure> extends StatefulWidget {
+  List<Structure>? modelStructures;
   final List<PlayType> playTypes;
 
   final List<List<dynamic>>? answersGrid;
   final String title;
   final int questionsNumber;
+  List<Note>? candidateBasses;
+  String Function(String id)? labelsMap;
 
   BasicEarTrainingExercice({
     Key? key,
@@ -31,28 +36,29 @@ class BasicEarTrainingExercice<ExercisableType extends Exercisable>
     required this.playTypes,
     required this.questionsNumber,
     this.answersGrid,
-    this.exercisables,
+    this.candidateBasses,
+    this.modelStructures,
+    this.labelsMap,
   }) : super(key: key) {
-    if (exercisables == null) {
-      exercisables =
-          getExercisablesFromAnswersGrid<ExercisableType>(answersGrid!);
+    if (modelStructures == null) {
+      modelStructures = getStructuresFromAnswersGrid<Structure>(answersGrid!);
     }
   }
 
   @override
-  _BasicEarTrainingExerciceState<ExercisableType> createState() =>
-      _BasicEarTrainingExerciceState<ExercisableType>();
+  _BasicEarTrainingExerciceState<Concrete, Structure> createState() =>
+      _BasicEarTrainingExerciceState<Concrete, Structure>();
 }
 
-class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
-    extends State<BasicEarTrainingExercice> {
-  Exercisable? exercisable;
+class _BasicEarTrainingExerciceState<Concrete extends Model,
+    Structure extends ModelStructure> extends State<BasicEarTrainingExercice> {
+  Concrete? model;
   PlayType? playType;
   bool? isRightAnswer;
   int answersCount = 0;
   int rightAnswersCount = 0;
-  String? selectedExercisableId;
-  Exercisable? exercisableBeingPlayed;
+  String? selectedStructureId;
+  Concrete? modelBeingPlayed;
 
   @override
   void initState() {
@@ -61,21 +67,26 @@ class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
   }
 
   void setNewQuestion() {
-    ExercisableType randExercisable = randomFrom(widget.exercisables!);
-    exercisableBeingPlayed?.stop();
+    modelBeingPlayed?.stop();
+    Structure randStructure = randomFrom(widget.modelStructures!);
     setState(() {
-      ExercisableType exercisable = exercisableBeingPlayed =
-          randExercisable.instantiate() as ExercisableType;
+      if (widget.candidateBasses != null) {
+        var bass = randomFrom<Note>(widget.candidateBasses!);
+        model = randStructure.projectOnNote(bass);
+      } else {
+        model = randStructure.getRandomModel();
+        modelBeingPlayed = model;
+      }
       playType = randomFrom(widget.playTypes);
       isRightAnswer = null;
-      selectedExercisableId = null;
-      exercisable?.play(playType!);
+      selectedStructureId = null;
+      modelBeingPlayed?.play(playType!);
     });
   }
 
   void onTryAgain() {
     Navigator.pop(context);
-    exercisableBeingPlayed?.stop();
+    modelBeingPlayed?.stop();
     setState(() {
       answersCount = 0;
       rightAnswersCount = 0;
@@ -83,12 +94,12 @@ class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
     setNewQuestion();
   }
 
-  void onClick(id) {
-    exercisableBeingPlayed?.stop();
+  void onClick(structureId) {
+    modelBeingPlayed?.stop();
     setState(() {
-      if (selectedExercisableId == null) {
-        selectedExercisableId = id;
-        isRightAnswer = exercisable!.id == id;
+      if (selectedStructureId == null) {
+        selectedStructureId = structureId;
+        isRightAnswer = model?.structure.id == structureId;
         answersCount++;
         rightAnswersCount += isRightAnswer! ? 1 : 0;
         if (answersCount == widget.questionsNumber) {
@@ -106,10 +117,10 @@ class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
                   ));
         }
       } else {
-        var exercisable =
-            widget.exercisables!.firstWhere(((element) => element.id == id));
-        exercisableBeingPlayed = exercisable.projectOnNote(exercisable!.root!);
-        exercisableBeingPlayed?.play(playType!);
+        var structure = widget.modelStructures!
+            .firstWhere(((element) => element.id == structureId));
+        modelBeingPlayed = structure.projectOnNote(model!.bass);
+        modelBeingPlayed?.play(playType!);
       }
     });
   }
@@ -117,7 +128,7 @@ class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
   @override
   void dispose() {
     super.dispose();
-    exercisableBeingPlayed?.stop();
+    modelBeingPlayed?.stop();
   }
 
   @override
@@ -135,23 +146,26 @@ class _BasicEarTrainingExerciceState<ExercisableType extends Exercisable>
                       Expanded(
                           flex: 2,
                           child: StaffContainer(
-                              song: exercisable?.getSheetData() ?? [])),
+                              song: model?.getSheetData(
+                                      playType == PlayType.harmonic) ??
+                                  [])),
                       Expanded(
                           child: Column(children: [
                         PlayButton(onPressed: () {
-                          exercisableBeingPlayed = exercisable;
-                          exercisable?.play(playType!);
+                          modelBeingPlayed = model;
+                          modelBeingPlayed?.play(playType!);
                         }),
                       ]))
                     ])),
             AnswersGrid(
               answersGrid: widget.answersGrid,
-              models: widget.exercisables,
+              ids: widget.modelStructures?.map((e) => e.id).toList() ?? [],
               onClick: onClick,
-              rightId: exercisable!.id,
-              selectedId: selectedExercisableId,
+              rightId: model!.structure.id,
+              selectedId: selectedStructureId,
+              labelsMap: widget.labelsMap,
             ),
-            if (selectedExercisableId != null)
+            if (selectedStructureId != null)
               OutlinedButton(
                 onPressed: setNewQuestion,
                 child: const Text("Next"),

@@ -23,12 +23,12 @@ class NotesCollection {
     StreamSubscription? subscription;
     subscription = player.onPlayerComplete.listen((event) {
       playInAscendant(i + 1);
-      debugPrint("player $i complete");
+      // debugPrint("player $i complete");
       subscription?.cancel();
     });
     player.onPlayerStateChanged.listen((event) {
       if (event == PlayerState.stopped) {
-        debugPrint("player $i stopped");
+        // debugPrint("player $i stopped");
 
         subscription?.cancel();
       }
@@ -69,7 +69,7 @@ class NotesCollection {
     });
   }
 
-  List<List<Note>> getSheetData([isHarmonic = false]) {
+  List<List<Note>> getSheetData(bool isHarmonic) {
     var res = <List<Note>>[[]];
 
     if (isHarmonic) {

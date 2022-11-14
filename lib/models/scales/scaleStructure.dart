@@ -17,13 +17,13 @@ class ScaleStructure implements ModelStructure<Scale, AbsoluteScale> {
   Ladder ladder;
   @override
   String label;
-  IntervalsStructure structure;
+  IntervalsStructure intervalsStructure;
   @override
   String id;
   int degree;
   ScaleStructure({
     required this.ladder,
-    required this.structure,
+    required this.intervalsStructure,
     required this.label,
     required this.degree,
     // required this.id,
@@ -36,23 +36,25 @@ class ScaleStructure implements ModelStructure<Scale, AbsoluteScale> {
 
   @override
   Scale getRandomModel() {
-    var maxSemitones = structure.intervals.last.semitones;
-    var maxScaleSteps = structure.intervals.last.scaleSteps;
+    var maxSemitones = intervalsStructure.intervals.last.semitones;
+    var maxScaleSteps = intervalsStructure.intervals.last.scaleSteps;
     var availableRoots = NOTES.where((note) =>
-        note.type.isChromatic &&
+        note.absoluteNote.isChromatic &&
         note.soundNumber + maxSemitones <= maxSoundNumber &&
         note.positionInG + maxScaleSteps <= maxPositionInG);
     var root = randomFrom(availableRoots.toList());
     return Scale(
         structure: this,
-        notesCollection: NotesCollection.fromRootAndStructure(root, structure));
+        notesCollection:
+            NotesCollection.fromRootAndStructure(root, intervalsStructure));
   }
 
   @override
   Scale projectOnNote(Note note) {
     return Scale(
         structure: this,
-        notesCollection: NotesCollection.fromRootAndStructure(note, structure));
+        notesCollection:
+            NotesCollection.fromRootAndStructure(note, intervalsStructure));
   }
 
   @override
@@ -73,7 +75,7 @@ List<ScaleStructure> getScales() {
       res.add(ScaleStructure(
           ladder: ladder,
           degree: i + 1,
-          structure: ladder.structure.translation(i + 1),
+          intervalsStructure: ladder.structure.translation(i + 1),
           label: ladder.modes[i]));
     }
   });

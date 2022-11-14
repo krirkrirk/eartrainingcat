@@ -8,6 +8,7 @@ class RoundAnswerButton extends StatefulWidget {
   bool isRightAnswer;
   bool isSelectedAnswer;
   bool isAnswerRevealed;
+  Color? backgroundColor;
 
   RoundAnswerButton(
       {Key? key,
@@ -17,7 +18,17 @@ class RoundAnswerButton extends StatefulWidget {
       required this.isSelectedAnswer,
       required this.isRightAnswer,
       this.disabled})
-      : super(key: key);
+      : super(key: key) {
+    if (isAnswerRevealed) {
+      backgroundColor = isRightAnswer
+          ? Colors.green
+          : isSelectedAnswer
+              ? Colors.red
+              : Colors.blueGrey;
+    } else {
+      backgroundColor = isSelectedAnswer ? null : Colors.blueGrey;
+    }
+  }
 
   // disabledBackgroundColor = right ? Colors.green : isSelectedAnswer ? Colors.red : null;
 
@@ -26,7 +37,18 @@ class RoundAnswerButton extends StatefulWidget {
 }
 
 class _RoundAnswerButtonState extends State<RoundAnswerButton> {
-  var disabledBackgroundColor;
+  Color? getBackgroundColor() {
+    if (widget.isAnswerRevealed) {
+      return widget.isRightAnswer
+          ? Colors.green
+          : widget.isSelectedAnswer
+              ? Colors.red
+              : Colors.blueGrey;
+    } else {
+      return widget.isSelectedAnswer ? null : Colors.blueGrey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -34,13 +56,7 @@ class _RoundAnswerButtonState extends State<RoundAnswerButton> {
       style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           minimumSize: Size(40, 50),
-          backgroundColor: widget.isAnswerRevealed
-              ? widget.isRightAnswer
-                  ? Colors.green
-                  : widget.isSelectedAnswer
-                      ? Colors.red
-                      : null
-              : null),
+          backgroundColor: getBackgroundColor()),
       child: Text(
         widget.text,
         style: TextStyle(fontSize: 20),

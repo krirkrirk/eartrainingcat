@@ -1,4 +1,3 @@
-import 'package:eartraining/models/exercisable/exercisable.dart';
 import 'package:eartraining/models/intervals/absoluteInterval.dart';
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/notes/absoluteNotesCollection.dart';
@@ -9,8 +8,7 @@ import 'package:eartraining/models/modelStructure.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/cupertino.dart' hide Interval;
 
-class IntervalStructure
-    implements ModelStructure<Interval, AbsoluteInterval>, Exercisable {
+class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
   @override
   String id;
   @override
@@ -54,27 +52,9 @@ class IntervalStructure
   }
 
   @override
-  void Function()? play(PlayType playtype) {
-    // TODO: implement play
-    throw UnimplementedError();
-  }
-
-  @override
-  void Function()? stop() {
-    // TODO: implement stop
-    throw UnimplementedError();
-  }
-
-  @override
-  List<List<Note>> getSheetData() {
-    // TODO: implement getSheetData
-    throw UnimplementedError();
-  }
-
-  @override
-  Interval instantiate() {
+  Interval getRandomModel() {
     var availableRoots = NOTES.where((note) =>
-        note.type.isChromatic &&
+        note.absoluteNote.isChromatic &&
         note.soundNumber + semitones <= maxSoundNumber &&
         note.positionInG + scaleSteps <= maxPositionInG);
     var root = randomFrom(availableRoots.toList());
@@ -99,18 +79,6 @@ class IntervalStructure
         structure: this,
         absoluteNotesCollection:
             AbsoluteNotesCollection(absoluteNotes: [note, note2]));
-  }
-
-  @override
-  Interval getRandomModel() {
-    var availableRoots = NOTES.where((note) =>
-        note.type.isChromatic &&
-        note.soundNumber + semitones <= maxSoundNumber &&
-        note.positionInG + scaleSteps <= maxPositionInG);
-    var root = randomFrom(availableRoots.toList());
-    return Interval(
-        structure: this,
-        notesCollection: NotesCollection(notes: [root, resultFromBass(root)]));
   }
 }
 

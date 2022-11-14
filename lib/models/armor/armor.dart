@@ -1,4 +1,3 @@
-import 'package:eartraining/models/exercisable/exercisable.dart';
 import 'package:eartraining/models/notes/absoluteNotesCollection.dart';
 import 'package:eartraining/models/notes/absoluteNote.dart';
 
@@ -20,12 +19,12 @@ class Armor {
             ? AbsoluteNotesCollection(
                 absoluteNotes: _sharps
                     .sublist(0, alteration)
-                    .map((e) => NOTES_TYPES_MAP[e]!)
+                    .map((e) => ABSOLUTE_NOTES_MAP[e]!)
                     .toList())
             : AbsoluteNotesCollection(
                 absoluteNotes: _bemols
                     .sublist(0, alteration.abs())
-                    .map((e) => NOTES_TYPES_MAP[e]!)
+                    .map((e) => ABSOLUTE_NOTES_MAP[e]!)
                     .toList());
 }
 

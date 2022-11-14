@@ -7,6 +7,7 @@ import 'package:eartraining/exercices/utils/getStructuresFromAnswersGrid.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/mainScaffold.dart';
 import 'package:eartraining/models/model.dart';
+import 'package:eartraining/models/notes/absoluteNote.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
 import 'package:eartraining/models/absoluteModel.dart';
@@ -16,44 +17,33 @@ import 'package:eartraining/staff/staffContainer.dart';
 import 'package:eartraining/utilities/randomFrom.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-///Facon de créer l'exo :
-///- passer answersGrid pour avoir une disposition custom (sinon automatisé mais alors passer modelStructures)
-///- passer candidateBasses pour spécifier les absses (sinon utiliser les getRandomModel())
-class ReadingExercice<Concrete extends Model, Structure extends ModelStructure>
-    extends StatefulWidget {
-  List<Structure>? modelStructures;
+class NoteReadingExercice extends StatefulWidget {
   final List<List<dynamic>>? answersGrid;
   final String title;
   final int questionsNumber;
-  List<Note>? candidateBasses;
-  String Function(String id)? labelsMap;
+  String clef;
+  List<Note> notes;
 
-  ReadingExercice({
-    Key? key,
-    required this.title,
-    required this.questionsNumber,
-    this.answersGrid,
-    this.candidateBasses,
-    this.modelStructures,
-    this.labelsMap,
-  }) : super(key: key) {
-    if (modelStructures == null) {
-      modelStructures = getStructuresFromAnswersGrid<Structure>(answersGrid!);
-    }
-  }
+  NoteReadingExercice(
+      {Key? key,
+      required this.title,
+      required this.questionsNumber,
+      this.answersGrid,
+      this.clef = "G",
+      required this.notes})
+      : super(key: key);
 
   @override
-  _ReadingExerciceState<Concrete, Structure> createState() =>
-      _ReadingExerciceState<Concrete, Structure>();
+  _NoteReadingExerciceState createState() => _NoteReadingExerciceState();
 }
 
-class _ReadingExerciceState<Concrete extends Model,
-    Structure extends ModelStructure> extends State<ReadingExercice> {
-  Concrete? model;
+class _NoteReadingExerciceState<Concrete extends Model,
+    Structure extends ModelStructure> extends State<NoteReadingExercice> {
+  Note? note;
   bool? isRightAnswer;
   int answersCount = 0;
   int rightAnswersCount = 0;
-  String? selectedStructureId;
+  String? selectedAbsoluteNoteId;
 
   @override
   void initState() {
@@ -62,16 +52,10 @@ class _ReadingExerciceState<Concrete extends Model,
   }
 
   void setNewQuestion() {
-    Structure randStructure = randomFrom(widget.modelStructures!);
     setState(() {
-      if (widget.candidateBasses != null) {
-        var bass = randomFrom<Note>(widget.candidateBasses!);
-        model = randStructure.projectOnNote(bass);
-      } else {
-        model = randStructure.getRandomModel();
-      }
+      note = randomFrom(widget.notes);
       isRightAnswer = null;
-      selectedStructureId = null;
+      selectedAbsoluteNoteId = null;
     });
   }
 
@@ -84,11 +68,11 @@ class _ReadingExerciceState<Concrete extends Model,
     setNewQuestion();
   }
 
-  void onClick(structureId) {
+  void onClick(absoluteNoteId) {
     setState(() {
-      if (selectedStructureId == null) {
-        selectedStructureId = structureId;
-        isRightAnswer = model?.structure.id == structureId;
+      if (selectedAbsoluteNoteId == null) {
+        selectedAbsoluteNoteId = absoluteNoteId;
+        isRightAnswer = note?.absoluteNote.id == absoluteNoteId;
         answersCount++;
         rightAnswersCount += isRightAnswer! ? 1 : 0;
         if (answersCount == widget.questionsNumber) {
@@ -106,10 +90,14 @@ class _ReadingExerciceState<Concrete extends Model,
                   ));
         }
       } else {
-        var structure = widget.modelStructures!
-            .firstWhere(((element) => element.id == structureId));
+        //show on staff
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -126,18 +114,17 @@ class _ReadingExerciceState<Concrete extends Model,
                     children: [
                       Expanded(
                           flex: 2,
-                          child: StaffContainer(
-                              song: model?.getSheetData(false) ?? [])),
+                          child:
+                              StaffContainer(song: note?.getSheetData() ?? []))
                     ])),
             AnswersGrid(
               answersGrid: widget.answersGrid,
-              ids: widget.modelStructures?.map((e) => e.id).toList() ?? [],
+              ids: ABSOLUTE_NOTES.map((e) => e.id).toList(),
               onClick: onClick,
-              rightId: model!.structure.id,
-              selectedId: selectedStructureId,
-              labelsMap: widget.labelsMap,
+              rightId: note!.absoluteNote.id,
+              selectedId: selectedAbsoluteNoteId,
             ),
-            if (selectedStructureId != null)
+            if (selectedAbsoluteNoteId != null)
               OutlinedButton(
                 onPressed: setNewQuestion,
                 child: const Text("Next"),

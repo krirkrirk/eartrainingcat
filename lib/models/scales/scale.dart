@@ -13,10 +13,10 @@ class Scale implements Model<ScaleStructure> {
   NotesCollection notesCollection;
   String name;
   @override
-  Note root;
+  Note bass;
   Scale({required this.structure, required this.notesCollection})
       : name = notesCollection.notes[0].id + structure.label,
-        root = notesCollection.notes[0];
+        bass = notesCollection.notes[0];
 
   @override
   play(playType) {
@@ -27,6 +27,11 @@ class Scale implements Model<ScaleStructure> {
   @override
   stop() {
     notesCollection.stop();
+  }
+
+  @override
+  List<List<Note>> getSheetData(bool isHarmlonic) {
+    return notesCollection.getSheetData(false);
   }
 
   @override

@@ -22,7 +22,7 @@ class AbsoluteScale implements AbsoluteModel<ScaleStructure> {
   AbsoluteNote root;
   AbsoluteScale({required this.structure, required this.root})
       : absoluteNotesCollection = AbsoluteNotesCollection.fromRootAndStructure(
-            root, structure.structure),
+            root, structure.intervalsStructure),
         id = root.id + structure.label;
 
   Armor getArmor() {

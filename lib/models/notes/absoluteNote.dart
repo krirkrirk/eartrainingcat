@@ -1,8 +1,9 @@
+import 'package:eartraining/models/modelStructure.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/cupertino.dart';
 
 List<String> LETTERS = ["C", "D", "E", "F", "G", "A", "B"];
-List<int> structure = [0, 2, 4, 5, 7, 9, 11];
+List<int> _structure = [0, 2, 4, 5, 7, 9, 11];
 Map<String, List<dynamic>> _alterations = {
   "bb": [-2, "double_bemol"],
   "b": [-1, "bemol"],
@@ -38,7 +39,7 @@ class AbsoluteNote {
       : id = letter + alteration.label,
         diatonicPosition = LETTERS.indexOf(letter),
         chromaticPosition =
-            (structure[LETTERS.indexOf(letter)] + alteration.semitones) % 12 {
+            (_structure[LETTERS.indexOf(letter)] + alteration.semitones) % 12 {
     isChromatic = alteration.label != "bb" &&
         alteration.label != "##" &&
         !["Cb", "E#", "B#", "Fb"].contains(id);
@@ -65,5 +66,5 @@ List<AbsoluteNote> _getNotesTypes() {
 }
 
 List<AbsoluteNote> ABSOLUTE_NOTES = _getNotesTypes();
-var NOTES_TYPES_MAP = Map<String, AbsoluteNote>.fromIterable(ABSOLUTE_NOTES,
+var ABSOLUTE_NOTES_MAP = Map<String, AbsoluteNote>.fromIterable(ABSOLUTE_NOTES,
     key: (item) => item.id, value: (item) => item);

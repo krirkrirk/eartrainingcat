@@ -5,12 +5,14 @@ import 'package:eartraining/models/modelStructure.dart';
 abstract class Model<Structure extends ModelStructure> {
   NotesCollection notesCollection;
   Structure structure;
-  Note root;
+  Note bass;
   void play(PlayType playType);
   void stop() {
     notesCollection.stop();
   }
 
+  List<List<Note>> getSheetData(bool isHarmonic);
+
   Model({required this.notesCollection, required this.structure})
-      : root = notesCollection.notes[0];
+      : bass = notesCollection.notes[0];
 }

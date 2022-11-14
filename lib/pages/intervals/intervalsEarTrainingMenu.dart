@@ -1,11 +1,10 @@
+import 'package:eartraining/buttons/menuButton.dart';
 import 'package:eartraining/exercices/basicEarTrainingExercice.dart';
-
+import 'package:eartraining/menu/menuContainer.dart';
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
-import 'package:eartraining/menu/menuContainer.dart';
-import 'package:eartraining/buttons/menuButton.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
-import 'package:flutter/material.dart' hide Interval;
+import 'package:flutter/cupertino.dart' hide Interval;
 
 class IntervalsEarTrainingMenu extends StatelessWidget {
   const IntervalsEarTrainingMenu({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
       buttons: [
         MenuButton(
           text: "Diatoniques",
-          target: BasicEarTrainingExercice<IntervalStructure>(
+          target: BasicEarTrainingExercice<Interval, IntervalStructure>(
               title: "Intervals Diatonique",
               questionsNumber: 3,
               answersGrid: const [
@@ -30,7 +29,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Arpège",
-          target: BasicEarTrainingExercice<IntervalStructure>(
+          target: BasicEarTrainingExercice<Interval, IntervalStructure>(
               title: "Notes de l'arpège",
               questionsNumber: 3,
               answersGrid: const [
@@ -48,7 +47,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
         ),
         MenuButton(
           text: "Chromatic",
-          target: BasicEarTrainingExercice<IntervalStructure>(
+          target: BasicEarTrainingExercice<Interval, IntervalStructure>(
               title: "Chromatique",
               questionsNumber: 3,
               answersGrid: const [
@@ -63,7 +62,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
               ]),
         )
       ],
-      image: "../../assets/images/doubleCroche.png",
+      image: "../../assets/images/double_croche.png",
       title: "Types d'intervalles",
     );
   }

@@ -7,15 +7,14 @@ class AnswersGrid extends StatefulWidget {
   void Function(String id) onClick;
   String rightId;
   String? selectedId;
-  // Map<String, String> labels;
-  List? models;
-  String Function(ModelStructure modelStructure)? labelsMap;
+  List<String>? ids;
+  String Function(String id)? labelsMap;
 
   AnswersGrid(
       {Key? key,
       this.answersGrid,
-      this.models,
       this.labelsMap,
+      this.ids,
       required this.onClick,
       required this.selectedId,
       required this.rightId})
@@ -61,15 +60,17 @@ class _AnswersGridState extends State<AnswersGrid> {
         : Expanded(
             child: GridView.count(
                 crossAxisCount: 5,
-                children: widget.models!
-                    .map<Widget>((model) => RoundAnswerButton(
+                children: widget.ids!
+                    .map<Widget>((id) => RoundAnswerButton(
                         onPressed: () {
-                          widget.onClick(model.id);
+                          widget.onClick(id);
                         },
                         isAnswerRevealed: widget.selectedId != null,
-                        isSelectedAnswer: widget.selectedId == model.id,
-                        isRightAnswer: model.id == widget.rightId,
-                        text: widget.labelsMap!(model)))
+                        isSelectedAnswer: widget.selectedId == id,
+                        isRightAnswer: id == widget.rightId,
+                        text: widget.labelsMap != null
+                            ? widget.labelsMap!(id)
+                            : id))
                     .toList()));
   }
 }

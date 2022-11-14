@@ -1,14 +1,18 @@
+import 'dart:math';
+
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:flutter/cupertino.dart';
 
 class IntervalsStructure {
   List<IntervalStructure> intervals = [];
-
-  IntervalsStructure({required this.intervals});
+  List<String> ids = [];
+  IntervalsStructure({required this.intervals})
+      : ids = intervals.map((e) => e.id).toList();
 
   IntervalsStructure.fromIds(intervalIds) {
+    ids = intervalIds;
     intervals = [];
-    intervalIds.forEach((id) {
+    ids.forEach((id) {
       intervals.add(INTERVALS_MAP[id]!);
     });
   }

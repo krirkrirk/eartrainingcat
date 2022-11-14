@@ -11,10 +11,10 @@ class Interval implements Model<IntervalStructure> {
   @override
   NotesCollection notesCollection;
   @override
-  Note root;
+  Note bass;
 
   Interval({required this.structure, required this.notesCollection})
-      : root = notesCollection.notes[0];
+      : bass = notesCollection.notes[0];
   @override
   String toString() {
     return structure.toString() + notesCollection.toString();
@@ -28,5 +28,10 @@ class Interval implements Model<IntervalStructure> {
   @override
   stop() {
     notesCollection.stop();
+  }
+
+  @override
+  List<List<Note>> getSheetData(bool isHarmonic) {
+    return notesCollection.getSheetData(isHarmonic);
   }
 }
