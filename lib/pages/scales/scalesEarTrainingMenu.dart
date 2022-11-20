@@ -14,7 +14,7 @@ class ScalesEarTrainingMenu extends StatelessWidget {
     return MenuContainer(
       title: "Types de gammes",
       appBarTitle: "Gammes",
-      image: "../../../assets/images/gamme_menu.png",
+      image: "assets/images/gamme_menu.png",
       buttons: [
         MenuButton(
           text: "Majeure & Mineure",

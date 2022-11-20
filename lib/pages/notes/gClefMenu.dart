@@ -11,7 +11,7 @@ class GClefMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuContainer(
       appBarTitle: "Lecture musicale",
-      image: "../../../assets/images/note_menu.png",
+      image: "assets/images/note_menu.png",
       title: "Clef de sol",
       buttons: [
         MenuButton(

@@ -76,10 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
               loaded = true;
             }));
 
-    // loadImageAsset("../assets/images/gKey.png").then((value) {
+    // loadImageAsset("assets/images/gKey.png").then((value) {
     //   gKey = value;
     // });
-    // loadImageAsset("../assets/images/sharp.png").then((value) {
+    // loadImageAsset("assets/images/sharp.png").then((value) {
     //   sharpImage = value;
     //   setState(() {
     //     loaded = true;

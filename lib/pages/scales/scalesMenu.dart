@@ -12,7 +12,7 @@ class ScalesMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Gammes",
       title: "Type d'exercice",
-      image: "../../../assets/images/gamme_menu.png",
+      image: "assets/images/gamme_menu.png",
       buttons: [
         MenuButton(text: "Ear training", target: ScalesEarTrainingMenu()),
         MenuButton(text: "Lecture", target: ScalesReadingMenu()),

@@ -12,7 +12,7 @@ class ArmorMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Armures",
       title: "Types d'exercice",
-      image: "../../../assets/images/armor_menu.png",
+      image: "assets/images/armor_menu.png",
       buttons: [
         MenuButton(text: "Trouver la tonalité", target: FindTonalityMenu()),
         MenuButton(text: "Trouver l'armure", target: FindArmorMenu())

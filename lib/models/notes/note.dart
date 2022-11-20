@@ -22,11 +22,11 @@ class Note {
             absoluteNote.chromaticPosition,
         positionInG = 1 + (octave) * 7 + absoluteNote.diatonicPosition,
         player = AudioPlayer() {
-    player.setSource(AssetSource('../assets/sounds/$soundNumber.mp3'));
+    player.setSource(AssetSource('sounds/$soundNumber.mp3'));
   }
 
   AudioPlayer play() {
-    player.play(AssetSource('../assets/sounds/$soundNumber.mp3'),
+    player.play(AssetSource('sounds/$soundNumber.mp3'),
         position: Duration(seconds: 1));
     return player;
   }

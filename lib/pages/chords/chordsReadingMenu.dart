@@ -17,7 +17,7 @@ class ChordsReadingMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuContainer(
         appBarTitle: "Accords",
-        image: "../../../assets/images/chord_menu.png",
+        image: "assets/images/chord_menu.png",
         title: "Type d'accord",
         buttons: [
           MenuButton(

@@ -12,7 +12,7 @@ class FindArmorMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Armures",
       title: "Trouver l'armure",
-      image: "../../../assets/images/armor_menu.png",
+      image: "assets/images/armor_menu.png",
       buttons: [
         MenuButton(
           text: "Tonalité majeure",

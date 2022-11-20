@@ -39,7 +39,7 @@ class MenuContainer extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10), child: button);
               }),
             ]),
-            Image.asset("../../assets/images/small_cat.png")
+            Image.asset("assets/images/small_cat.png")
           ],
         ));
   }

@@ -62,7 +62,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
               ]),
         )
       ],
-      image: "../../assets/images/double_croche.png",
+      image: "assets/images/double_croche.png",
       title: "Types d'intervalles",
     );
   }

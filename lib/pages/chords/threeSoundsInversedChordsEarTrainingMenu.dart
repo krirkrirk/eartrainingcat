@@ -12,7 +12,7 @@ class ThreeSoundsInversedChordsEarTrainingMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MenuContainer(
-      image: "../../assets/images/double_croche.png",
+      image: "assets/images/double_croche.png",
       title: "Accords 3 sons renversés",
       appBarTitle: "Accords",
       buttons: [

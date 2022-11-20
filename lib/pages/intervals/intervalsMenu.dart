@@ -16,7 +16,7 @@ class IntervalsMenu extends StatelessWidget {
     return MenuContainer(
         appBarTitle: "Intervalles",
         title: "Type d'exerice",
-        image: "../../../assets/images/double_croche.png",
+        image: "assets/images/double_croche.png",
         buttons: [
           MenuButton(text: "Ear training", target: IntervalsEarTrainingMenu()),
           MenuButton(text: "Lecture", target: IntervalsReadingMenu())

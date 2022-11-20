@@ -16,7 +16,7 @@ class NotesMenu extends StatelessWidget {
         // MenuButton(text: "Clef d'UT", target: target),
         // MenuButton(text: "Oreille absolue", target: target),
       ],
-      image: "../../../assets/images/note_menu.png",
+      image: "assets/images/note_menu.png",
       title: "Types de clef",
     );
   }

@@ -12,7 +12,7 @@ class FindTonalityMenu extends StatelessWidget {
     return MenuContainer(
       title: "Trouver la tonalité",
       appBarTitle: "Armures",
-      image: "../../../assets/images/armor_menu.png",
+      image: "assets/images/armor_menu.png",
       buttons: [
         MenuButton(
           text: "Tonalité majeure",

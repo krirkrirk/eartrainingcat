@@ -78,7 +78,7 @@ class ThreeSoundsChordsEarTrainingMenu extends StatelessWidget {
                   .toList(),
             )),
       ],
-      image: "../../assets/images/double_croche.png",
+      image: "assets/images/double_croche.png",
       title: "Types d'accords",
     );
   }

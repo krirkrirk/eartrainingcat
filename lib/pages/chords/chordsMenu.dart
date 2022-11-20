@@ -11,7 +11,7 @@ class ChordsMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Accords",
       title: "Type d'exercice",
-      image: "../../../assets/images/chord_menu.png",
+      image: "assets/images/chord_menu.png",
       buttons: [
         MenuButton(text: "Ear training", target: ChordsEarTrainingMenu()),
       ],

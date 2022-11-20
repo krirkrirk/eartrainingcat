@@ -36,11 +36,12 @@ class _StaffContainerState extends State<StaffContainer> {
       "double_bemol"
     ];
     for (var i = 0; i < ids.length; i++) {
-      getUiImage(ids[i], 10, 10).then((res) => setState(() {
+      getUiImage(ids[i], 100, 100).then((res) => setState(() {
             IMAGES[ids[i]] = res;
             if (i == ids.length - 1) {
               allImagesLoaded = true;
             }
+            //
           }));
     }
   }

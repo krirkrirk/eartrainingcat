@@ -15,7 +15,7 @@ class ScalesReadingMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Gammes",
       title: "Types de galle",
-      image: "../../../assets/images/double_croche.png",
+      image: "assets/images/double_croche.png",
       buttons: [
         MenuButton(
             text: "Majeure et mineure",

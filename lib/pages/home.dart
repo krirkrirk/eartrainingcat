@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuContainer(
       appBarTitle: "Musical Training Cat",
-      image: "../assets/images/notes.png",
+      image: "assets/images/notes.png",
       title: "Miaou !",
       buttons: [
         MenuButton(text: "Notes", target: NotesMenu()),

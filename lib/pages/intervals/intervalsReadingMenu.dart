@@ -13,7 +13,7 @@ class IntervalsReadingMenu extends StatelessWidget {
     return MenuContainer(
       appBarTitle: "Intervalles",
       title: "Types d'intervalles",
-      image: "../../../assets/images/double_croche.png",
+      image: "assets/images/double_croche.png",
       buttons: [
         MenuButton(
             text: "1 octave diatonique asc",

@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
         ])),
         Expanded(
             child: Image.asset(
-          "../assets/images/cat.png",
+          "assets/images/cat.png",
         )),
         Expanded(
             child: Container(
