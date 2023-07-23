@@ -84,6 +84,7 @@ class _ChordEarTrainingMultiSelectExerciceState
       isRightAnswer = null;
       hasAnswered = false;
       chordBeingPlayed?.play(PlayType.harmonic);
+      debugPrint(chord!.name);
     });
   }
 

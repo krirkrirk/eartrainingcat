@@ -40,21 +40,23 @@ class ScaleStructure implements ModelStructure<Scale, AbsoluteScale> {
     var maxScaleSteps = intervalsStructure.intervals.last.scaleSteps;
     var availableRoots = NOTES.where((note) =>
         note.absoluteNote.isChromatic &&
+        note.soundNumber < 26 && //26 = C2, on interdit les toniques supérierues
         note.soundNumber + maxSemitones <= maxSoundNumber &&
         note.positionInG + maxScaleSteps <= maxPositionInG);
     var root = randomFrom(availableRoots.toList());
+    debugPrint("scale chosen $root and ${id},");
     return Scale(
         structure: this,
-        notesCollection:
-            NotesCollection.fromRootAndStructure(root, intervalsStructure));
+        notesCollection: NotesCollection.fromRootAndStructure(
+            root, intervalsStructure, true));
   }
 
   @override
   Scale projectOnNote(Note note) {
     return Scale(
         structure: this,
-        notesCollection:
-            NotesCollection.fromRootAndStructure(note, intervalsStructure));
+        notesCollection: NotesCollection.fromRootAndStructure(
+            note, intervalsStructure, true));
   }
 
   @override

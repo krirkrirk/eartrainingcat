@@ -11,8 +11,8 @@ class Note {
   int octave; //C0 to C3
   int soundNumber; // C0 is 1
   int positionInG; // C0 is 1
+  int positionInF; //C0 is 1
   AudioPlayer player;
-
   Note({
     required this.absoluteNote,
     required this.octave,
@@ -21,13 +21,14 @@ class Note {
             (octave + absoluteNote.octaveIncrement) * 12 +
             absoluteNote.chromaticPosition,
         positionInG = 1 + (octave) * 7 + absoluteNote.diatonicPosition,
+        positionInF = 1 + (octave) * 7 + absoluteNote.diatonicPosition - 2,
         player = AudioPlayer() {
     player.setSource(AssetSource('sounds/$soundNumber.mp3'));
   }
 
   AudioPlayer play() {
     player.play(AssetSource('sounds/$soundNumber.mp3'),
-        position: Duration(seconds: 1));
+        volume: 4.0, position: Duration(seconds: 1));
     return player;
   }
 
@@ -66,4 +67,4 @@ List<Note> getAllNotes() {
 
 var NOTES = getAllNotes();
 var NOTES_MAP = Map.fromIterable(NOTES,
-    key: (item) => item.fullName, value: (item) => item as Note);
+    key: (item) => item.id, value: (item) => item as Note);

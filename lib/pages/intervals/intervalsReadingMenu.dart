@@ -20,8 +20,37 @@ class IntervalsReadingMenu extends StatelessWidget {
             target: ReadingExercice<Interval, IntervalStructure>(
               questionsNumber: 3,
               title: "Diatonique asc",
-              modelStructures:
-                  INTERVALS.where((element) => element.isDiatonic).toList(),
+              modelStructures: INTERVALS
+                  .where((element) =>
+                      element.isDiatonic &&
+                      element.type < 9 &&
+                      element.type != 1)
+                  .toList(),
+              answersGrid: const [
+                [
+                  {"id": "2", "label": "2nd"},
+                  {"id": "3", "label": "3rce"},
+                  {"id": "4", "label": "4rte"},
+                  {"id": "5", "label": "5te"},
+                ],
+                [
+                  {"id": "6", "label": "6xte"},
+                  {"id": "7", "label": "7ème"},
+                  {"id": "8", "label": "Oct"},
+                ]
+              ],
+            )),
+        MenuButton(
+            text: "1 octave diatonique desc",
+            target: ReadingExercice<Interval, IntervalStructure>(
+              questionsNumber: 3,
+              title: "Diatonique desc",
+              modelStructures: INTERVALS
+                  .where((element) =>
+                      element.isDiatonic &&
+                      element.type < 9 &&
+                      element.type != 1)
+                  .toList(),
               answersGrid: const [
                 [
                   {"id": "2", "label": "2nd"},

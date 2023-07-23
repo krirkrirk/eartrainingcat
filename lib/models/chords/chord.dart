@@ -31,6 +31,7 @@ class Chord implements Model<ChordStructure> {
 
   @override
   List<List<Note>> getSheetData(bool isHarmonic) {
+    debugPrint("notesColl $notesCollection");
     return notesCollection.getSheetData(true);
   }
 

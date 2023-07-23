@@ -51,16 +51,18 @@ class _RoundAnswerButtonState extends State<RoundAnswerButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: widget.onPressed,
-      style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          minimumSize: Size(40, 50),
-          backgroundColor: getBackgroundColor()),
-      child: Text(
-        widget.text,
-        style: TextStyle(fontSize: 20),
-      ),
-    );
+    return Padding(
+        padding: const EdgeInsets.all(2),
+        child: ElevatedButton(
+          onPressed: widget.onPressed,
+          style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              minimumSize: Size(40, 50),
+              backgroundColor: getBackgroundColor()),
+          child: Text(
+            widget.text,
+            style: TextStyle(fontSize: 18),
+          ),
+        ));
   }
 }

@@ -59,8 +59,8 @@ class ChordStructure implements ModelStructure<Chord, AbsoluteChord> {
   @override
   Chord projectOnNote(Note rootNote) {
     return Chord(
-        notesCollection:
-            NotesCollection.fromRootAndStructure(rootNote, intervalsStructure),
+        notesCollection: NotesCollection.fromRootAndStructure(
+            rootNote, intervalsStructure, false),
         structure: this);
   }
 
@@ -74,17 +74,23 @@ class ChordStructure implements ModelStructure<Chord, AbsoluteChord> {
 
   @override
   Chord getRandomModel() {
+    debugPrint("chord id $id");
+    debugPrint("struct ${intervalsStructure.ids}");
     var maxSemitones = intervalsStructure.intervals.last.semitones;
     var maxScaleSteps = intervalsStructure.intervals.last.scaleSteps;
+    debugPrint(" get random model : $maxScaleSteps et $maxSemitones");
     var availableRoots = NOTES.where((note) =>
         note.absoluteNote.isChromatic &&
         note.soundNumber + maxSemitones <= maxSoundNumber &&
         note.positionInG + maxScaleSteps <= maxPositionInG);
+    debugPrint("av roots : $availableRoots");
+
     var randRoot = randomFrom(availableRoots.toList());
+
     return Chord(
         structure: this,
-        notesCollection:
-            NotesCollection.fromRootAndStructure(randRoot, intervalsStructure));
+        notesCollection: NotesCollection.fromRootAndStructure(
+            randRoot, intervalsStructure, false));
   }
 
   List<String> getNonInversedChordStructureIds() {
@@ -92,6 +98,9 @@ class ChordStructure implements ModelStructure<Chord, AbsoluteChord> {
       return intervalsStructure.ids;
     else {
       ChordStructure nonInversed = CHORDS_MAP[id.substring(0, id.length - 2)]!;
+      debugPrint("id $id");
+
+      debugPrint("non inv ${nonInversed.intervalsStructure.ids} ");
       return nonInversed.intervalsStructure.ids;
     }
   }

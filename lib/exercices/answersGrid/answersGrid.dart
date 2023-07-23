@@ -59,7 +59,8 @@ class _AnswersGridState extends State<AnswersGrid> {
                 .toList())
         : Expanded(
             child: GridView.count(
-                crossAxisCount: 5,
+                crossAxisCount: 6,
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 children: widget.ids!
                     .map<Widget>((id) => RoundAnswerButton(
                         onPressed: () {

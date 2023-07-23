@@ -22,7 +22,7 @@ class Staff extends StatelessWidget {
     required this.song,
     required this.images,
     this.armor,
-    this.clef = "C",
+    this.clef = "G",
   }) : super(key: key) {
     // debugPrint(images.isEmpty.toString());
     // Future<UI.Image>
@@ -34,7 +34,8 @@ class Staff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      foregroundPainter: Painter(song: song, images: images, armor: armor),
+      foregroundPainter:
+          Painter(song: song, images: images, armor: armor, clef: clef),
       child: Container(
         width: double.infinity,
         height: 150.0,
@@ -61,7 +62,8 @@ class Painter extends CustomPainter {
   bool loaded = false;
   Map<String, UI.Image> images;
   Armor? armor;
-  Painter({required this.song, required this.images, this.armor});
+  String? clef;
+  Painter({required this.song, required this.images, this.armor, this.clef});
 
   void drawNotes(Canvas canvas, Size size) {
     var sheetHeight = size.height;
@@ -75,7 +77,7 @@ class Painter extends CustomPainter {
     var barElementWidth = max(sheetWidth / 10, 20);
 
     var clefWidth = 30;
-    var barStart = clefWidth + 20;
+    var barStart = clefWidth + 30;
 
     for (var i = 0; i < song.length; i++) {
       var barElementStart = barStart + i * barElementWidth;
@@ -92,9 +94,6 @@ class Painter extends CustomPainter {
                   height: deltaH * 2),
               image: images[note.absoluteNote.alteration.imgId]!,
               fit: BoxFit.cover);
-
-          // canvas.drawImage(images[note.type.alteration.imgId]!,
-          //     Offset(barElementCenter - barElementWidth / 4, noteY), paint);
         }
 
         // canvas.drawCircle(Offset(barElementCenter, noteY), deltaH / 2, paint);
@@ -144,8 +143,8 @@ class Painter extends CustomPainter {
           Offset(0, i * deltaH), Offset(sheetWidth, i * deltaH), paint);
     }
     var armorX = 50.0;
-    armor?.notesAltered.absoluteNotes.forEach((element) {
-      var armorY = ((12) * 2 - (element.diatonicPosition + 15)) * deltaH / 2;
+    armor?.staffNotes.notes.forEach((element) {
+      var armorY = ((12) * 2 - (element.positionInG)) * deltaH / 2;
       armorX += 10;
       paintImage(
           canvas: canvas,
@@ -153,7 +152,7 @@ class Painter extends CustomPainter {
               center: Offset(armorX, armorY),
               width: deltaH * 2,
               height: deltaH * 2),
-          image: images[element.alteration.imgId]!,
+          image: images[element.absoluteNote.alteration.imgId]!,
           fit: BoxFit.cover);
     });
   }

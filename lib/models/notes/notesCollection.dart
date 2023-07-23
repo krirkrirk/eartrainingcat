@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/models/intervalsStructure/intervalsStructure.dart';
 import 'package:eartraining/models/notes/note.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +12,12 @@ class NotesCollection {
   NotesCollection({required this.notes});
 
   NotesCollection.fromRootAndStructure(
-      Note root, IntervalsStructure structure) {
+      Note root, IntervalsStructure structure, bool addOctave) {
     for (var interval in structure.intervals) {
       notes.add(interval.resultFromBass(root));
+    }
+    if (addOctave) {
+      notes.add(INTERVALS_MAP["8"]!.resultFromBass(root));
     }
   }
 
@@ -23,13 +27,10 @@ class NotesCollection {
     StreamSubscription? subscription;
     subscription = player.onPlayerComplete.listen((event) {
       playInAscendant(i + 1);
-      // debugPrint("player $i complete");
       subscription?.cancel();
     });
     player.onPlayerStateChanged.listen((event) {
       if (event == PlayerState.stopped) {
-        // debugPrint("player $i stopped");
-
         subscription?.cancel();
       }
     });
@@ -37,10 +38,17 @@ class NotesCollection {
 
   void playInDescendant(i) {
     if (i < 0) return;
-    // var player = notes[i].play();
-    // player.onPlayerComplete.listen((event) {
-    //   playInAscendant(i - 1);
-    // });
+    var player = notes[i].play();
+    StreamSubscription? subscription;
+    subscription = player.onPlayerComplete.listen((event) {
+      playInAscendant(i - 1);
+      subscription?.cancel();
+    });
+    player.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.stopped) {
+        subscription?.cancel();
+      }
+    });
   }
 
   void playInHarmonic() {

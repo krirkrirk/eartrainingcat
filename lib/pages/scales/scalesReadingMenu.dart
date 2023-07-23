@@ -14,7 +14,7 @@ class ScalesReadingMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuContainer(
       appBarTitle: "Gammes",
-      title: "Types de galle",
+      title: "Types de gamme",
       image: "assets/images/double_croche.png",
       buttons: [
         MenuButton(

@@ -37,7 +37,7 @@ class IntervalsEarTrainingMenu extends StatelessWidget {
                 [
                   "7m",
                   "7",
-                  {"id": "8", "label": "prout"}
+                  // {"id": "8", "label": "prout"}
                 ]
               ],
               playTypes: const [

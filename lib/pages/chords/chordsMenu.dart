@@ -1,6 +1,7 @@
 import 'package:eartraining/buttons/menuButton.dart';
 import 'package:eartraining/menu/menuContainer.dart';
 import 'package:eartraining/pages/chords/chordsEarTrainingMenu.dart';
+import 'package:eartraining/pages/chords/chordsReadingMenu.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChordsMenu extends StatelessWidget {
@@ -14,6 +15,7 @@ class ChordsMenu extends StatelessWidget {
       image: "assets/images/chord_menu.png",
       buttons: [
         MenuButton(text: "Ear training", target: ChordsEarTrainingMenu()),
+        MenuButton(text: "Lecture", target: ChordsReadingMenu()),
       ],
     );
   }

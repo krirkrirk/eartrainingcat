@@ -119,7 +119,13 @@ class _NoteReadingExerciceState<Concrete extends Model,
                     ])),
             AnswersGrid(
               answersGrid: widget.answersGrid,
-              ids: ABSOLUTE_NOTES.map((e) => e.id).toList(),
+              ids: ABSOLUTE_NOTES
+                  .where((note) =>
+                      note.isChromatic &&
+                      (note.alteration.semitones == 1 ||
+                          note.alteration.semitones == 0))
+                  .map((e) => e.id)
+                  .toList(),
               onClick: onClick,
               rightId: note!.absoluteNote.id,
               selectedId: selectedAbsoluteNoteId,

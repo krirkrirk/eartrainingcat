@@ -29,7 +29,7 @@ class ThreeSoundsInversedChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
               ]),
         ),
         MenuButton(
@@ -45,7 +45,7 @@ class ThreeSoundsInversedChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
               ]),
         ),
         MenuButton(
@@ -61,7 +61,7 @@ class ThreeSoundsInversedChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
               ]),
         ),
         MenuButton(
@@ -77,7 +77,7 @@ class ThreeSoundsInversedChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
               ]),
         ),
       ],

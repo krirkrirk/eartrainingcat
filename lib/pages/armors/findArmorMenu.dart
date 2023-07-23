@@ -15,43 +15,69 @@ class FindArmorMenu extends StatelessWidget {
       image: "assets/images/armor_menu.png",
       buttons: [
         MenuButton(
-          text: "Tonalité majeure",
+          text: "Tonalité majeure (dièses)",
           target: TonalityWritingExercice(
-            title: "Tonalité majeure",
+            title: "Tonalité majeure (dièses)",
             questionsNumber: 3,
-            tonalities:
-                TONALITIES.where((element) => !element.isMinor).toList(),
-            answersGrid: const [
-              ["1#", "2#", "3#", "4#", "5#", "6#", "7#"],
-              ["0"],
-              ["1b", "2b", "3b", "4b", "5b", "6b", "7b"],
-            ],
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration > 0)
+                .toList(),
           ),
         ),
         MenuButton(
-          text: "Tonalité mineure",
+          text: "Tonalité majeure (bémols)",
           target: TonalityWritingExercice(
-            title: "Tonalité mineure",
+            title: "Tonalité majeure (bémols)",
             questionsNumber: 3,
-            tonalities: TONALITIES.where((element) => element.isMinor).toList(),
-            answersGrid: const [
-              ["1#", "2#", "3#", "4#", "5#", "6#", "7#"],
-              ["0"],
-              ["1b", "2b", "3b", "4b", "5b", "6b", "7b"],
-            ],
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration < 0)
+                .toList(),
           ),
         ),
         MenuButton(
-          text: "Toutes les tonalités",
+          text: "Tonalité majeure (toutes)",
           target: TonalityWritingExercice(
-            title: "Toutes les tonalités",
+            title: "Tonalité majeure (toutes)",
             questionsNumber: 3,
-            tonalities: TONALITIES.toList(),
-            answersGrid: const [
-              ["1#", "2#", "3#", "4#", "5#", "6#", "7#"],
-              ["0"],
-              ["1b", "2b", "3b", "4b", "5b", "6b", "7b"],
-            ],
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration != 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures  (dièses)",
+          target: TonalityWritingExercice(
+            title: "Tonalités mineures (dièses)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration > 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures (bémols)",
+          target: TonalityWritingExercice(
+            title: "Tonalités mineures (bémols)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration > 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures (toutes)",
+          target: TonalityWritingExercice(
+            title: "Tonalités mineures (toutes)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration != 0)
+                .toList(),
           ),
         ),
       ],

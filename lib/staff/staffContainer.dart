@@ -18,6 +18,17 @@ class StaffContainer extends StatefulWidget {
   _StaffContainerState createState() => _StaffContainerState();
 }
 
+class ImageProps {
+  String id = "";
+  int width = 0;
+  int height = 0;
+  ImageProps(String id, int width, int height) {
+    this.id = id;
+    this.width = width;
+    this.height = height;
+  }
+}
+
 class _StaffContainerState extends State<StaffContainer> {
   bool allImagesLoaded = false;
 
@@ -26,23 +37,27 @@ class _StaffContainerState extends State<StaffContainer> {
   @override
   void initState() {
     super.initState();
-    var ids = [
-      "sharp",
-      "double_sharp",
-      "gKey",
-      "bemol_red",
-      "note_white",
-      "bemol",
-      "double_bemol"
+
+    var images = [
+      new ImageProps("sharp", 50, 50),
+      new ImageProps("double_sharp", 50, 50),
+      new ImageProps("gKey", 50, 100),
+      new ImageProps("bemol_red", 50, 50),
+      new ImageProps("note_white", 50, 50),
+      new ImageProps("bemol", 50, 50),
+      new ImageProps("double_bemol", 50, 50),
     ];
-    for (var i = 0; i < ids.length; i++) {
-      getUiImage(ids[i], 100, 100).then((res) => setState(() {
-            IMAGES[ids[i]] = res;
-            if (i == ids.length - 1) {
-              allImagesLoaded = true;
-            }
-            //
-          }));
+
+    for (var i = 0; i < images.length; i++) {
+      var image = images[i];
+      getUiImage(image.id, image.height, image.width)
+          .then((res) => setState(() {
+                IMAGES[image.id] = res;
+                if (i == images.length - 1) {
+                  allImagesLoaded = true;
+                }
+                //
+              }));
     }
   }
 

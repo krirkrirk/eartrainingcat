@@ -22,12 +22,14 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
   Note? root;
   AbsoluteNote? absoluteRoot;
   Interval? interval;
+  bool isDescendant = false;
   IntervalStructure(
       {required this.label,
       required this.id,
       required this.semitones,
       required this.type,
       this.isArpegio = false,
+      this.isDescendant = false,
       required this.isDiatonic})
       : scaleSteps = type - 1,
         octave = type < 9 ? 1 : 2;
@@ -38,6 +40,7 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
   }
 
   Note resultFromBass(Note note) {
+    debugPrint("result from bass : ${note.id}");
     return NOTES.firstWhere((el) =>
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
@@ -82,7 +85,7 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
   }
 }
 
-final INTERVALS = [
+final DEFAULT_INTERVALS = [
   IntervalStructure(
       label: "Unisson", id: "1", semitones: 0, type: 1, isDiatonic: true),
   IntervalStructure(
@@ -332,8 +335,25 @@ final INTERVALS = [
       label: "Octave2", id: "15", semitones: 24, type: 15, isDiatonic: true),
 ];
 
-//ajouter IntervalStructure octave (1 ou 2)
-//faire un lien entre les octaves (3=10, 5=12, 7=14)
+IntervalStructure getDescendantInterval(IntervalStructure interval) {
+  return IntervalStructure(
+      label: interval.label + " descendant",
+      id: interval.id + "D",
+      semitones: -interval.semitones,
+      type: interval.type,
+      isDescendant: true,
+      isDiatonic: interval.isDiatonic);
+}
+
+List<IntervalStructure> getAllIntervals() {
+  List<IntervalStructure> res = [];
+  DEFAULT_INTERVALS.forEach((element) {
+    res.addAll([element, getDescendantInterval(element)]);
+  });
+  return res;
+}
+
+List<IntervalStructure> INTERVALS = getAllIntervals();
 
 final INTERVALS_MAP = Map<String, IntervalStructure>.fromIterable(INTERVALS,
     key: (item) => item.id, value: (item) => item);

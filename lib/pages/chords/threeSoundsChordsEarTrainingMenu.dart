@@ -28,7 +28,22 @@ class ThreeSoundsChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
+              ]),
+        ),
+        MenuButton(
+          text: "Accords sus",
+          target: BasicEarTrainingExercice<Chord, ChordStructure>(
+              title: "3 sons | Accords sus",
+              questionsNumber: 3,
+              answersGrid: const [
+                [
+                  {"id": "sus2", "label": "sus2"},
+                  {"id": "sus4", "label": "sus4"},
+                ],
+              ],
+              playTypes: const [
+                PlayType.harmonic
               ]),
         ),
         MenuButton(
@@ -43,7 +58,7 @@ class ThreeSoundsChordsEarTrainingMenu extends StatelessWidget {
                 ],
               ],
               playTypes: const [
-                PlayType.ascendant
+                PlayType.harmonic
               ]),
         ),
         MenuButton(

@@ -74,7 +74,7 @@ class _TonalityWritingExerciceState<Concrete extends Model,
     setState(() {
       if (selectedArmorId == null) {
         selectedArmorId = armorId;
-        isRightAnswer = tonality?.id == selectedArmorId;
+        isRightAnswer = tonality?.armor.id == selectedArmorId;
         answersCount++;
         rightAnswersCount += isRightAnswer! ? 1 : 0;
         if (answersCount == widget.questionsNumber) {

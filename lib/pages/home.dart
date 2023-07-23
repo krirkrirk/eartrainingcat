@@ -20,11 +20,11 @@ class Home extends StatelessWidget {
       image: "assets/images/notes.png",
       title: "Miaou !",
       buttons: [
+        MenuButton(text: "Armures", target: ArmorMenu()),
         MenuButton(text: "Notes", target: NotesMenu()),
         MenuButton(text: "Intervalles", target: IntervalsMenu()),
         MenuButton(text: "Accords", target: ChordsMenu()),
         MenuButton(text: "Gammes", target: ScalesMenu()),
-        MenuButton(text: "Armures", target: ArmorMenu()),
       ],
     );
   }

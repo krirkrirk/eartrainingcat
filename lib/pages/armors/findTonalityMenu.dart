@@ -15,28 +15,69 @@ class FindTonalityMenu extends StatelessWidget {
       image: "assets/images/armor_menu.png",
       buttons: [
         MenuButton(
-          text: "Tonalité majeure",
+          text: "Tonalités majeures (dièses)",
           target: TonalityReadingExercice(
-            title: "Tonalité Majeure",
+            title: "Tonalités majeures (dièses)",
             questionsNumber: 3,
-            tonalities:
-                TONALITIES.where((element) => !element.isMinor).toList(),
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration > 0)
+                .toList(),
           ),
         ),
         MenuButton(
-          text: "Tonalité mineure",
+          text: "Tonalités majeures (bémols)",
           target: TonalityReadingExercice(
-            title: "Tonalité Mineure",
+            title: "Tonalités majeures (bémols)",
             questionsNumber: 3,
-            tonalities: TONALITIES.where((element) => element.isMinor).toList(),
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration < 0)
+                .toList(),
           ),
         ),
         MenuButton(
-          text: "Toutes les tonalités",
+          text: "Tonalités majeures (toutes)",
           target: TonalityReadingExercice(
-            title: "Toutes les tonalités",
+            title: "Tonalités majeures (toutes)",
             questionsNumber: 3,
-            tonalities: TONALITIES,
+            tonalities: TONALITIES
+                .where((element) =>
+                    !element.isMinor && element.armor.alteration != 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures (dièses)",
+          target: TonalityReadingExercice(
+            title: "Tonalités mineures (dièses)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration > 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures (bémols)",
+          target: TonalityReadingExercice(
+            title: "Tonalités mineures (bémols)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration < 0)
+                .toList(),
+          ),
+        ),
+        MenuButton(
+          text: "Tonalités mineures (toutes)",
+          target: TonalityReadingExercice(
+            title: "Tonalités mineures (toutes)",
+            questionsNumber: 3,
+            tonalities: TONALITIES
+                .where((element) =>
+                    element.isMinor && element.armor.alteration != 0)
+                .toList(),
           ),
         ),
       ],

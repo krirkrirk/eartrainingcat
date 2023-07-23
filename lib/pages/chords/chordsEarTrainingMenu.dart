@@ -6,6 +6,7 @@ import 'package:eartraining/models/chords/chordStructure.dart';
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/pages/chords/FourSoundsChordsEarTrainingMenu.dart';
 import 'package:eartraining/pages/chords/threeSoundsChordsEarTrainingMenu.dart';
 import 'package:eartraining/pages/chords/threeSoundsInversedChordsEarTrainingMenu.dart';
 import 'package:flutter/cupertino.dart' hide Interval;
@@ -22,6 +23,7 @@ class ChordsEarTrainingMenu extends StatelessWidget {
         buttons: [
           MenuButton(
               text: "3 sons", target: ThreeSoundsChordsEarTrainingMenu()),
+          MenuButton(text: "4 sons", target: FourSoundsChordsEarTrainingMenu()),
         ]);
   }
 }

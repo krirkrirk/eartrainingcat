@@ -31,6 +31,7 @@ class IntervalsStructure {
     if (degree == 0) return this;
     var newRoot = intervals[intervals.length - degree];
     List<IntervalStructure> res = _getIntervalsFromDegree(newRoot);
+    debugPrint("inversion $res, degree $degree");
     return IntervalsStructure(
         intervals: res.sublist(degree - 1) + res.sublist(0, degree - 1));
   }
@@ -44,11 +45,12 @@ class IntervalsStructure {
           element.type == newType && element.semitones == newSemitones);
       res.add(newInterval);
     }
+    res.sort((a, b) => a.type - b.type);
     return res;
   }
 
   @override
   String toString() {
-    return "intervals structure";
+    return "$intervals";
   }
 }
