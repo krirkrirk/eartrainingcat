@@ -6,6 +6,8 @@ import 'package:eartraining/models/chords/chordStructure.dart';
 import 'package:eartraining/models/intervals/interval.dart';
 import 'package:eartraining/models/intervals/intervalStructure.dart';
 import 'package:eartraining/models/notes/notesCollection.dart';
+import 'package:eartraining/pages/chords/fourSoundsChordsEarTrainingMenu.dart';
+import 'package:eartraining/pages/chords/fourSoundsChordsReadingMenu.dart';
 import 'package:eartraining/pages/chords/threeSoundsChordsEarTrainingMenu.dart';
 import 'package:eartraining/pages/chords/threeSoundsChordsReadingMenu.dart';
 import 'package:eartraining/pages/chords/threeSoundsInversedChordsEarTrainingMenu.dart';
@@ -22,6 +24,7 @@ class ChordsReadingMenu extends StatelessWidget {
         title: "Type d'accord",
         buttons: [
           MenuButton(text: "3 sons", target: ThreeSoundsChordsReadingMenu()),
+          MenuButton(text: "4 sons", target: FourSoundsChordsReadingMenu()),
         ]);
   }
 }

@@ -8,9 +8,6 @@ void main() {
   runApp(const MyApp());
 }
 
-//!!!TODOOOOOO
-///réfléchir au concept de taonlité
-///
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

@@ -31,7 +31,7 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
       this.isArpegio = false,
       this.isDescendant = false,
       required this.isDiatonic})
-      : scaleSteps = type - 1,
+      : scaleSteps = semitones > 0 ? type - 1 : -type + 1,
         octave = type < 9 ? 1 : 2;
 
   @override
@@ -40,7 +40,10 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
   }
 
   Note resultFromBass(Note note) {
-    debugPrint("result from bass : ${note.id}");
+    debugPrint(
+        "result from bass : ${note.id}, interval ${id}, notes ${interval?.notesCollection}");
+    debugPrint(
+        "result from bass params : note sound ${note.soundNumber}, note position ${note.positionInG}, semitones $semitones, scale steps $scaleSteps ");
     return NOTES.firstWhere((el) =>
         el.soundNumber - note.soundNumber == semitones &&
         el.positionInG - note.positionInG == scaleSteps);
@@ -59,7 +62,9 @@ class IntervalStructure implements ModelStructure<Interval, AbsoluteInterval> {
     var availableRoots = NOTES.where((note) =>
         note.absoluteNote.isChromatic &&
         note.soundNumber + semitones <= maxSoundNumber &&
-        note.positionInG + scaleSteps <= maxPositionInG);
+        note.soundNumber + semitones > 0 &&
+        note.positionInG + scaleSteps <= maxPositionInG &&
+        note.positionInG + scaleSteps > 0);
     var root = randomFrom(availableRoots.toList());
     return Interval(
         structure: this,

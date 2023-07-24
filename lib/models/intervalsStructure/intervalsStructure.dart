@@ -22,18 +22,17 @@ class IntervalsStructure {
     if (degree == 1) return this;
     var newRoot = intervals[degree - 1];
     List<IntervalStructure> res = _getIntervalsFromDegree(newRoot);
-    return IntervalsStructure(
-        intervals: res.sublist(degree - 1) + res.sublist(0, degree - 1));
+    return IntervalsStructure(intervals: res);
   }
 
   IntervalsStructure inversion(int degree) {
     assert(degree < intervals.length, "0 est l'EF");
+    debugPrint("degree $degree");
     if (degree == 0) return this;
     var newRoot = intervals[intervals.length - degree];
     List<IntervalStructure> res = _getIntervalsFromDegree(newRoot);
     debugPrint("inversion $res, degree $degree");
-    return IntervalsStructure(
-        intervals: res.sublist(degree - 1) + res.sublist(0, degree - 1));
+    return IntervalsStructure(intervals: res);
   }
 
   List<IntervalStructure> _getIntervalsFromDegree(IntervalStructure newRoot) {

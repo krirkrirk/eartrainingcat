@@ -48,20 +48,21 @@ class IntervalsReadingMenu extends StatelessWidget {
               modelStructures: INTERVALS
                   .where((element) =>
                       element.isDiatonic &&
+                      element.isDescendant &&
                       element.type < 9 &&
                       element.type != 1)
                   .toList(),
               answersGrid: const [
                 [
-                  {"id": "2", "label": "2nd"},
-                  {"id": "3", "label": "3rce"},
-                  {"id": "4", "label": "4rte"},
-                  {"id": "5", "label": "5te"},
+                  {"id": "2D", "label": "2nd"},
+                  {"id": "3D", "label": "3rce"},
+                  {"id": "4D", "label": "4rte"},
+                  {"id": "5D", "label": "5te"},
                 ],
                 [
-                  {"id": "6", "label": "6xte"},
-                  {"id": "7", "label": "7ème"},
-                  {"id": "8", "label": "Oct"},
+                  {"id": "6D", "label": "6xte"},
+                  {"id": "7D", "label": "7ème"},
+                  {"id": "8D", "label": "Oct"},
                 ]
               ],
             )),
