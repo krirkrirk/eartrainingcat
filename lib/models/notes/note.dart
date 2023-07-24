@@ -23,11 +23,11 @@ class Note {
         positionInG = 1 + (octave) * 7 + absoluteNote.diatonicPosition,
         positionInF = 1 + (octave) * 7 + absoluteNote.diatonicPosition - 2,
         player = AudioPlayer() {
-    player.setSource(AssetSource('sounds/$soundNumber.mp3'));
+    player.setSource(AssetSource('sounds/$soundNumber.wav'));
   }
 
   AudioPlayer play() {
-    player.play(AssetSource('sounds/$soundNumber.mp3'),
+    player.play(AssetSource('sounds/$soundNumber.wav'),
         volume: 4.0, position: Duration(seconds: 1));
     return player;
   }

@@ -21,7 +21,12 @@ class GClefMenu extends StatelessWidget {
               questionsNumber: 3,
               notes: NOTES
                   .where((element) =>
-                      element.absoluteNote.isChromatic && element.octave == 1)
+                      element.absoluteNote.isChromatic &&
+                      [
+                        0,
+                        1
+                      ].contains(element.absoluteNote.alteration.semitones) &&
+                      element.octave == 1)
                   .toList()),
         ),
         MenuButton(
@@ -31,7 +36,12 @@ class GClefMenu extends StatelessWidget {
               questionsNumber: 3,
               notes: NOTES
                   .where((element) =>
-                      element.absoluteNote.isChromatic && element.octave == 2)
+                      element.absoluteNote.isChromatic &&
+                      [
+                        0,
+                        1
+                      ].contains(element.absoluteNote.alteration.semitones) &&
+                      element.octave == 2)
                   .toList()),
         ),
         MenuButton(
@@ -41,7 +51,12 @@ class GClefMenu extends StatelessWidget {
               questionsNumber: 3,
               notes: NOTES
                   .where((element) =>
-                      element.absoluteNote.isChromatic && element.octave == 0)
+                      element.absoluteNote.isChromatic &&
+                      [
+                        0,
+                        1
+                      ].contains(element.absoluteNote.alteration.semitones) &&
+                      element.octave == 0)
                   .toList()),
         ),
         MenuButton(
@@ -50,7 +65,10 @@ class GClefMenu extends StatelessWidget {
               title: "Toutes",
               questionsNumber: 3,
               notes: NOTES
-                  .where((element) => element.absoluteNote.isChromatic)
+                  .where((element) =>
+                      element.absoluteNote.isChromatic &&
+                      [0, 1]
+                          .contains(element.absoluteNote.alteration.semitones))
                   .toList()),
         ),
       ],
